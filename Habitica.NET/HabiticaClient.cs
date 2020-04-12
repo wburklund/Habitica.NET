@@ -12,7 +12,7 @@ using System.Text;
 
 namespace Habitica.NET
 {
-    public class HabiticaClient
+    public class HabiticaClient : IHabiticaClient
     {
         private readonly HttpClient httpClient;
 

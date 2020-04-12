@@ -8,6 +8,5 @@ namespace Habitica.NET
         Task<TRes> PostAsync<TReq, TRes>(string requestUri, TReq requestData);
         Task<TRes> PutAsync<TReq, TRes>(string requestUri, TReq requestData);
         Task DeleteAsync(string requestUri);
-        void SetCredentials(HabiticaCredentials credentials);
     }
 }
