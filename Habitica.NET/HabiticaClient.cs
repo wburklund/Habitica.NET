@@ -7,6 +7,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Habitica.NET.Properties;
@@ -19,6 +20,7 @@ using System.Globalization;
 [assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
 {
+    [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters", Justification = "Impractical with current design")]
     public sealed class HabiticaClient : IHabiticaClient, IDisposable
     {
         private readonly HttpClient httpClient;
@@ -52,7 +54,6 @@ namespace Habitica.NET
             Uri hostUrl)
         {
             string clientHeader = $"{credentials.AppAuthorUserId}-{credentials.AppName}";
-
             client.BaseAddress = hostUrl;
             client.DefaultRequestHeaders.Add("x-client", clientHeader);
             client.DefaultRequestHeaders.Add("x-api-user", credentials.ApiUserId.ToString());
