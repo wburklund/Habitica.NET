@@ -9,16 +9,16 @@ namespace Habitica.NET
         public Guid AppAuthorUserId { get; set; }
         public string AppName { get; set; }
         public Guid ApiUserId { get; set; }
-        public Guid ApiKey { get; set; }
+        public Guid ApiToken { get; set; }
 
         public HabiticaCredentials() { }
 
-        public HabiticaCredentials(Guid appAuthorUserId, string appName, Guid apiUserId, Guid apiKey)
+        public HabiticaCredentials(Guid appAuthorUserId, string appName, Guid apiUserId, Guid apiToken)
         {
             this.AppAuthorUserId = appAuthorUserId;
             this.AppName = appName;
             this.ApiUserId = apiUserId;
-            this.ApiKey = apiKey;
+            this.ApiToken = apiToken;
         }
     }
 }

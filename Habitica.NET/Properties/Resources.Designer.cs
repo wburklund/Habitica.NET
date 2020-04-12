@@ -61,11 +61,11 @@ namespace Habitica.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to A Habitica API key must be provided for authentication..
+        ///   Looks up a localized string similar to A Habitica API token must be provided for authentication..
         /// </summary>
-        internal static string ExceptionApiKeyEmpty {
+        internal static string ExceptionApiTokenEmpty {
             get {
-                return ResourceManager.GetString("ExceptionApiKeyEmpty", resourceCulture);
+                return ResourceManager.GetString("ExceptionApiTokenEmpty", resourceCulture);
             }
         }
         

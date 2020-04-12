@@ -36,7 +36,7 @@ namespace Habitica.NET
             if (credentials.AppAuthorUserId == default) throw new ArgumentException(Resources.ExceptionAppAuthorUserIdEmpty);
             if (string.IsNullOrWhiteSpace(credentials.AppName)) throw new ArgumentException(Resources.ExceptionAppNameEmpty);
             if (credentials.ApiUserId == default) throw new ArgumentException(Resources.ExceptionApiUserIdEmpty);
-            if (credentials.ApiKey == default) throw new ArgumentException(Resources.ExceptionApiKeyEmpty);
+            if (credentials.ApiToken == default) throw new ArgumentException(Resources.ExceptionApiTokenEmpty);
         }
 
         private void ConfigureHttpClient(
@@ -49,7 +49,7 @@ namespace Habitica.NET
             client.BaseAddress = new Uri(hostUrl);
             client.DefaultRequestHeaders.Add("x-client", clientHeader);
             client.DefaultRequestHeaders.Add("x-api-user", credentials.ApiUserId.ToString());
-            client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiKey.ToString());
+            client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());
         }
 
         public async Task<T> GetAsync<T>(string requestUri)
