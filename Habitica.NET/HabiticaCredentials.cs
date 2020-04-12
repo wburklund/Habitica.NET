@@ -5,7 +5,6 @@ using System.Diagnostics.CodeAnalysis;
 
 namespace Habitica.NET
 {
-    [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters", Justification = "Impractical with current design")]
     public class HabiticaCredentials
     {
         public Guid AppAuthorUserId { get; set; }
