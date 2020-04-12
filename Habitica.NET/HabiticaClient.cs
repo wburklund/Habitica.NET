@@ -24,6 +24,8 @@ namespace Habitica.NET
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
             if (client == null) throw new ArgumentNullException(nameof(client));
             ValidateCredentials(credentials);
+            
+            int x = 5;
 
             ConfigureHttpClient(client, credentials, hostUrl);
             this.httpClient = client;
