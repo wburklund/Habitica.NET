@@ -12,7 +12,7 @@ jobs:
       - run:
           command: |
             apt update
-            apt install -y unzip default-jr
+            apt install -y unzip default-jre
       - run:
           command: |
             dotnet tool install --global dotnet-sonarscanner
