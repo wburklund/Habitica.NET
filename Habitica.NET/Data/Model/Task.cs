@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
 
 using Habitica.NET.Data.Enum;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 
@@ -8,10 +9,11 @@ namespace Habitica.NET.Data.Model
 {
     public class Task
     {
-        public Guid _Id { get; set; }
         public CharacterAttribute Attribute { get; set; }
         public bool ByHabitica { get; set; }
         public object Challenge { get; set; }
+        [JsonProperty("_id")]
+        public Guid ChallengeLeaderId { get; set; }
         public DateTime CreatedAt { get; set; }
         public GroupTaskData Group { get; set; }
         public Guid Id { get; set; }
