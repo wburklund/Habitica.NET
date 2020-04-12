@@ -12,7 +12,8 @@ jobs:
           password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - run: apt-get install -y unzip
+      - run: apt update
+      - run: apt install -y unzip
       - run: dotnet build
       - sonarcloud/scan
 
