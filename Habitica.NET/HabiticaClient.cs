@@ -122,8 +122,8 @@ namespace Habitica.NET
             if (request.DueDate.HasValue) queryParameters.Add("dueDate", request.DueDate.Value.ToString("o", DateTimeFormatInfo.InvariantInfo));
 
             string path = endpoint + queryParameters.ToQueryString();
-
-            return GetAsync<IEnumerable<Data.Model.Task>>(path);
+            Uri pathUri = new Uri(path, UriKind.Relative);
+            return GetAsync<IEnumerable<Data.Model.Task>>(pathUri);
         }
 
         #region IDisposable Support
