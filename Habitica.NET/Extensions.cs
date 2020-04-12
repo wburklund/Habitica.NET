@@ -13,6 +13,8 @@ namespace Habitica.NET
         {
             if (nameValueCollection == null) throw new ArgumentNullException(nameof(nameValueCollection));
             if (nameValueCollection.Count == 0) return "";
+            
+            int testWarnAsError = 5;
 
             var keys = nameValueCollection.AllKeys;
             var pairs = keys.Select(k => new KeyValuePair<string, string>(k, nameValueCollection[k]));
