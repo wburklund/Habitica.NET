@@ -6,7 +6,7 @@ orbs:
 jobs:
   scan:
     docker:
-      - image: 'cimg/base'
+      - image: 'cimg/base:2020.01'
     steps:
       - checkout
       - sonarcloud/scan
