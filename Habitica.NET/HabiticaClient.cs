@@ -37,7 +37,7 @@ namespace Habitica.NET
             this.httpClient = client;
         }
 
-        private void ValidateCredentials(HabiticaCredentials credentials)
+        private static void ValidateCredentials(HabiticaCredentials credentials)
         {
             if (credentials.AppAuthorUserId == default) throw new ArgumentException(Resources.ExceptionAppAuthorUserIdEmpty);
             if (string.IsNullOrWhiteSpace(credentials.AppName)) throw new ArgumentException(Resources.ExceptionAppNameEmpty);
