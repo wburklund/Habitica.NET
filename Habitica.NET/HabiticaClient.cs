@@ -14,7 +14,7 @@ using System.Text;
 
 namespace Habitica.NET
 {
-    public class HabiticaClient : IHabiticaClient
+    public sealed class HabiticaClient : IHabiticaClient, IDisposable
     {
         private readonly HttpClient httpClient;
 
@@ -108,5 +108,24 @@ namespace Habitica.NET
 
             return GetAsync<IEnumerable<Data.Model.Task>>(path);
         }
+
+        #region IDisposable Support
+        private bool disposedValue = false;
+
+        private void Dispose(bool disposing)
+        {
+            if (!disposedValue)
+            {
+                if (disposing) httpClient.Dispose();
+
+                disposedValue = true;
+            }
+        }
+
+        public void Dispose()
+        {
+            Dispose(true);
+        }
+        #endregion
     }
 }
