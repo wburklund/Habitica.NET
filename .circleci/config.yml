@@ -17,6 +17,6 @@ jobs:
           command: |
             export PATH="$PATH:/root/.dotnet/tools" 
             dotnet sonarscanner begin /k:"wburklund_Habitica.NET" /o:wburklund /d:sonar.host.url=https://sonarcloud.io /d:sonar-login=$SONAR_TOKEN
-            dotnet build
+            dotnet build -warnaserror
             dotnet sonarscanner end
             
