@@ -6,7 +6,7 @@ orbs:
 jobs:
   build:
     docker:
-      - image: 'microsoft-dotnet-core-sdk'
+      - image: 'mcr.microsoft.com/dotnet/core/sdk'
         auth:
           username: $DOCKER_USERNAME
           password: $DOCKER_PASSWORD
