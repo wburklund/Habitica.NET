@@ -12,10 +12,10 @@ jobs:
             apt update
             apt install -y default-jre
             dotnet tool install --global dotnet-sonarscanner
-            export PATH="$PATH:/root/.dotnet/tools" 
       - run:
           name: Build and Scan
           command: |
+            export PATH="$PATH:/root/.dotnet/tools" 
             dotnet sonarscanner begin /k:"wburklund_Habitica.NET" /o:wburklund /d:sonar.host.url=https://sonarcloud.io /d:sonar-login=$SONAR_TOKEN
             dotnet build
             dotnet sonarscanner end
