@@ -12,6 +12,7 @@ using System.Threading.Tasks;
 using Habitica.NET.Properties;
 using System.Text;
 using System.Resources;
+using System.Globalization;
 
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: CLSCompliant(true)]
@@ -58,49 +59,58 @@ namespace Habitica.NET
             client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());
         }
 
-        public async Task<T> GetAsync<T>(string requestUri)
+        public Task<TReturn> GetAsync<TReturn>(string requestUri) => GetAsync<TReturn>(new Uri(requestUri, UriKind.Relative));
+
+        public async Task<TReturn> GetAsync<TReturn>(Uri requestUri)
         {
-            var httpResponse = await httpClient.GetAsync(requestUri);
+            var httpResponse = await httpClient.GetAsync(requestUri).ConfigureAwait(false);
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
-            string content = await httpResponse.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<T>>(content);
+            string content = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(content);
             return response.Data;
         }
 
-        public async Task<TResponseData> PostAsync<TRequestData, TResponseData>(string requestUri, TRequestData requestData)
+        public Task<TReturn> PostAsync<TRequest, TReturn>(string requestUri, TRequest requestData)
+            => PostAsync<TRequest, TReturn>(new Uri(requestUri, UriKind.Relative), requestData);
+
+        public async Task<TReturn> PostAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
             string json = JsonConvert.SerializeObject(requestData);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PostAsync(requestUri, requestBody);
+            var httpResponse = await httpClient.PostAsync(requestUri, requestBody).ConfigureAwait(false);
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
             string body = httpResponse.ToBody();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<TResponseData>>(body);
+            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
             return response.Data;
         }
+        public Task<TReturn> PutAsync<TRequest, TReturn>(string requestUri, TRequest requestData) =>
+            PutAsync<TRequest, TReturn>(new Uri(requestUri, UriKind.Relative), requestData);
 
-        public async Task<TResponseData> PutAsync<TRequestData, TResponseData>(string requestUri, TRequestData requestData)
+        public async Task<TReturn> PutAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
             string json = JsonConvert.SerializeObject(requestData);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PutAsync(requestUri, requestBody);
+            var httpResponse = await httpClient.PutAsync(requestUri, requestBody).ConfigureAwait(false);
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
             string body = httpResponse.ToBody();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<TResponseData>>(body);
+            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
             return response.Data;
         }
 
-        public async Task DeleteAsync(string requestUri)
+        public Task DeleteAsync(string requestUri) => DeleteAsync(new Uri(requestUri, UriKind.Relative));
+
+        public async Task DeleteAsync(Uri requestUri)
         {
-            var httpResponse = await httpClient.DeleteAsync(requestUri);
+            var httpResponse = await httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
         }
         
-        public Task<IEnumerable<Data.Model.Task>> GetUserTasks(GetUserTasksRequest request)
+        public Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
         {
             const string endpoint = "/api/v3/tasks/user";
 
@@ -108,7 +118,7 @@ namespace Habitica.NET
 
             NameValueCollection queryParameters = new NameValueCollection();
             if (request.TaskType.HasValue) queryParameters.Add("type", request.TaskType.Value.ToString("G"));
-            if (request.DueDate.HasValue) queryParameters.Add("dueDate", request.DueDate.Value.ToString());
+            if (request.DueDate.HasValue) queryParameters.Add("dueDate", request.DueDate.Value.ToString("o", DateTimeFormatInfo.InvariantInfo));
 
             string path = endpoint + queryParameters.ToQueryString();
 
@@ -116,7 +126,7 @@ namespace Habitica.NET
         }
 
         #region IDisposable Support
-        private bool disposedValue = false;
+        private bool disposedValue;
 
         private void Dispose(bool disposing)
         {
