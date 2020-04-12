@@ -11,7 +11,11 @@ using System.Net.Http;
 using System.Threading.Tasks;
 using Habitica.NET.Properties;
 using System.Text;
+using System.Resources;
 
+[assembly: System.Runtime.InteropServices.ComVisible(false)]
+[assembly: CLSCompliant(true)]
+[assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
 {
     public sealed class HabiticaClient : IHabiticaClient, IDisposable
