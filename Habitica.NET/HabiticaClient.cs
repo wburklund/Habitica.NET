@@ -45,7 +45,7 @@ namespace Habitica.NET
             if (credentials.ApiToken == default) throw new ArgumentException(Resources.ExceptionApiTokenEmpty);
         }
 
-        private void ConfigureHttpClient(
+        private static void ConfigureHttpClient(
             HttpClient client,
             HabiticaCredentials credentials,
             Uri hostUrl)
