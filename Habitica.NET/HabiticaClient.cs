@@ -60,8 +60,6 @@ namespace Habitica.NET
             client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());
         }
 
-        public Task<TReturn> GetAsync<TReturn>(string requestUri) => GetAsync<TReturn>(requestUri.ToUri());
-
         public async Task<TReturn> GetAsync<TReturn>(Uri requestUri)
         {
             var httpResponse = await httpClient.GetAsync(requestUri).Safe();
@@ -71,9 +69,6 @@ namespace Habitica.NET
             var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(content);
             return response.Data;
         }
-
-        public Task<TReturn> PostAsync<TRequest, TReturn>(string requestUri, TRequest requestData)
-            => PostAsync<TRequest, TReturn>(requestUri.ToUri(), requestData);
 
         public async Task<TReturn> PostAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
@@ -87,8 +82,6 @@ namespace Habitica.NET
             var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
             return response.Data;
         }
-        public Task<TReturn> PutAsync<TRequest, TReturn>(string requestUri, TRequest requestData) =>
-            PutAsync<TRequest, TReturn>(requestUri.ToUri(), requestData);
 
         public async Task<TReturn> PutAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
@@ -102,8 +95,6 @@ namespace Habitica.NET
             var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
             return response.Data;
         }
-
-        public Task DeleteAsync(string requestUri) => DeleteAsync(requestUri.ToUri());
 
         public async Task DeleteAsync(Uri requestUri)
         {
