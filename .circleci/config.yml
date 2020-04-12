@@ -4,21 +4,27 @@ orbs:
   sonarcloud: sonarsource/sonarcloud@1.0.1
 
 jobs:
+  scan:
+    docker:
+      - image: 'cimg/base'
+    steps:
+      - checkout
+      - sonarcloud/scan
   build:
     docker:
       - image: 'mcr.microsoft.com/dotnet/core/sdk'
-        auth:
-          username: $DOCKER_USERNAME
-          password: $DOCKER_PASSWORD
+#       auth:
+#         username: $DOCKER_USERNAME
+#         password: $DOCKER_PASSWORD
     steps:
       - checkout
-      - run: apt update
-      - run: apt install -y unzip
+#     - run: apt update
+#     - run: apt install -y unzip
       - run: dotnet build
-      - sonarcloud/scan
+#      - sonarcloud/scan
 
 workflows:
   main:
     jobs:
-      - build:
+      - scan:
           context: SonarCloud
