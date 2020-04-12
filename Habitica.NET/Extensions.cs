@@ -15,7 +15,7 @@ namespace Habitica.NET
         {
             if (nameValueCollection == null) throw new ArgumentNullException(nameof(nameValueCollection));
             if (nameValueCollection.Count == 0) return "";
-
+            
             var keys = nameValueCollection.AllKeys;
             var pairs = keys.Select(k => new KeyValuePair<string, string>(k, nameValueCollection[k]));
             var parameters = pairs.Select(p => Uri.EscapeUriString(p.Key) + "=" + Uri.EscapeUriString(p.Value));
