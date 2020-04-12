@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Habitica.NET
 {
-    [SuppressMessage("Minor Code Smell", "S3997:Refactor this method so it invokes the overload accepting a 'System.Uri' parameter.", Justification = "Default interface implementations are not available in C# 7.3.")]
     [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters.", Justification = "Impractical with current design")]
     public interface IHabiticaClient
     {
