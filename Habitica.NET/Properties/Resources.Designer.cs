@@ -95,5 +95,14 @@ namespace Habitica.NET.Properties {
                 return ResourceManager.GetString("ExceptionAppNameEmpty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to .
+        /// </summary>
+        internal static string HostUrl {
+            get {
+                return ResourceManager.GetString("HostUrl", resourceCulture);
+            }
+        }
     }
 }

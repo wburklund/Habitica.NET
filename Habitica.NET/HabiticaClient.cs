@@ -22,10 +22,12 @@ namespace Habitica.NET
     {
         private readonly HttpClient httpClient;
 
+        public HabiticaClient(HttpClient client, HabiticaCredentials credentials) : this(client, credentials, new Uri(Resources.HostUrl)) { }
+
         public HabiticaClient(
             HttpClient client,
             HabiticaCredentials credentials,
-            string hostUrl = "https://habitica.com/")
+            Uri hostUrl)
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
             if (client == null) throw new ArgumentNullException(nameof(client));
@@ -46,11 +48,11 @@ namespace Habitica.NET
         private void ConfigureHttpClient(
             HttpClient client,
             HabiticaCredentials credentials,
-            string hostUrl)
+            Uri hostUrl)
         {
             string clientHeader = $"{credentials.AppAuthorUserId}-{credentials.AppName}";
 
-            client.BaseAddress = new Uri(hostUrl);
+            client.BaseAddress = hostUrl;
             client.DefaultRequestHeaders.Add("x-client", clientHeader);
             client.DefaultRequestHeaders.Add("x-api-user", credentials.ApiUserId.ToString());
             client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());

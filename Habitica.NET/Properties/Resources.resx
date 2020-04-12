@@ -129,4 +129,7 @@
   <data name="ExceptionAppNameEmpty" xml:space="preserve">
     <value>The application's name must be provided.</value>
   </data>
+  <data name="HostUrl" xml:space="preserve">
+    <value />
+  </data>
 </root>
