@@ -1,7 +1,7 @@
 version: 2.1
 
-orbs:
-  sonarcloud: sonarsource/sonarcloud@1.0.1
+#orbs:
+#  sonarcloud: sonarsource/sonarcloud@1.0.1
 
 jobs:
   build:
@@ -22,8 +22,8 @@ jobs:
             dotnet sonarscanner end
       #- sonarcloud/scan
 
-workflows:
-  main:
-    jobs:
-      - build:
-          context: SonarCloud
+#workflows:
+#  main:
+#    jobs:
+#      - build:
+#          context: SonarCloud
