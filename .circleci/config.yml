@@ -7,6 +7,9 @@ jobs:
   build:
     docker:
       - image: 'microsoft-dotnet-core-sdk'
+        auth:
+          username: $DOCKER_USERNAME
+          password: $DOCKER_PASSWORD
     steps:
       - checkout
       - run: dotnet build
