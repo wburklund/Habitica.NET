@@ -1,7 +1,7 @@
 version: 2.1
 
-#orbs:
-#  sonarcloud: sonarsource/sonarcloud@1.0.1
+orbs:
+  sonarcloud: sonarsource/sonarcloud@1.0.1
 
 jobs:
   build:
@@ -9,8 +9,8 @@ jobs:
       - image: 'mcr.microsoft.com/dotnet/core/sdk'
     steps:
       - checkout
-#     - run: apt update
-#     - run: apt install -y unzip
+     - run: apt update
+     - run: apt install -y unzip
       - run:
           command: |
             dotnet tool install --global dotnet-sonarscanner
@@ -18,10 +18,10 @@ jobs:
             dotnet sonarscanner begin /k:"wburklund_Habitica.NET" /o:wburklund /d:sonar.host.url=https://sonarcloud.io /d:sonar-login=$SONAR_TOKEN
             dotnet build
             dotnet sonarscanner end
-#     - sonarcloud/scan
+     - sonarcloud/scan
 
-#workflows:
-#  main:
-#    jobs:
-#      - build:
-#          context: SonarCloud
+workflows:
+  main:
+    jobs:
+      - build:
+          context: SonarCloud
