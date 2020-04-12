@@ -11,10 +11,12 @@ jobs:
       - checkout
 #     - run: apt update
 #     - run: apt install -y unzip
-      - run: dotnet tool install --global dotnet-sonarscanner
-      - run: dotnet sonarscanner begin /k:"wburklund_Habitica.NET"
-      - run: dotnet build
-      - run: dotnet sonarscanner end
+      - run:
+        command: |
+        dotnet tool install --global dotnet-sonarscanner
+        dotnet sonarscanner begin /k:"wburklund_Habitica.NET"
+        dotnet build
+        dotnet sonarscanner end
 #     - sonarcloud/scan
 
 workflows:
