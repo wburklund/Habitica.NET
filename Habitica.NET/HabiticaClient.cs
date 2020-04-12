@@ -60,7 +60,7 @@ namespace Habitica.NET
             client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());
         }
 
-        public Task<TReturn> GetAsync<TReturn>(string requestUri) => GetAsync<TReturn>(new Uri(requestUri, UriKind.Relative));
+        public Task<TReturn> GetAsync<TReturn>(string requestUri) => GetAsync<TReturn>(requestUri.ToUri());
 
         public async Task<TReturn> GetAsync<TReturn>(Uri requestUri)
         {
@@ -73,7 +73,7 @@ namespace Habitica.NET
         }
 
         public Task<TReturn> PostAsync<TRequest, TReturn>(string requestUri, TRequest requestData)
-            => PostAsync<TRequest, TReturn>(new Uri(requestUri, UriKind.Relative), requestData);
+            => PostAsync<TRequest, TReturn>(requestUri.ToUri(), requestData);
 
         public async Task<TReturn> PostAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
@@ -88,7 +88,7 @@ namespace Habitica.NET
             return response.Data;
         }
         public Task<TReturn> PutAsync<TRequest, TReturn>(string requestUri, TRequest requestData) =>
-            PutAsync<TRequest, TReturn>(new Uri(requestUri, UriKind.Relative), requestData);
+            PutAsync<TRequest, TReturn>(requestUri.ToUri(), requestData);
 
         public async Task<TReturn> PutAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
         {
@@ -103,7 +103,7 @@ namespace Habitica.NET
             return response.Data;
         }
 
-        public Task DeleteAsync(string requestUri) => DeleteAsync(new Uri(requestUri, UriKind.Relative));
+        public Task DeleteAsync(string requestUri) => DeleteAsync(requestUri.ToUri());
 
         public async Task DeleteAsync(Uri requestUri)
         {
@@ -122,8 +122,7 @@ namespace Habitica.NET
             if (request.DueDate.HasValue) queryParameters.Add("dueDate", request.DueDate.Value.ToString("o", DateTimeFormatInfo.InvariantInfo));
 
             string path = endpoint + queryParameters.ToQueryString();
-            Uri pathUri = new Uri(path, UriKind.Relative);
-            return GetAsync<IEnumerable<Data.Model.Task>>(pathUri);
+            return GetAsync<IEnumerable<Data.Model.Task>>(path.ToUri());
         }
 
         #region IDisposable Support

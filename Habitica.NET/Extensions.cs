@@ -24,6 +24,7 @@ namespace Habitica.NET
         }
 
         internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Await();
+        internal static Uri ToUri(this string url) => new Uri(url, UriKind.RelativeOrAbsolute);
 
         internal static T Await<T>(this Task<T> task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
     }
