@@ -10,7 +10,7 @@ jobs:
           name: Install Dependencies
           command: |
             apt update
-            apt install -y default-jre
+            apt install --no-install-recommends default-jre
             dotnet tool install --global dotnet-sonarscanner
       - run:
           name: Build and Scan
