@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿// Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
+
+using System.Threading.Tasks;
 
 namespace Habitica.NET
 {

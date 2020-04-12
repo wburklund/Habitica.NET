@@ -1,4 +1,6 @@
-﻿using System;
+﻿// Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
+
+using System;
 using System.Net.Http;
 
 namespace Habitica.NET.Exceptions
