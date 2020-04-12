@@ -9,10 +9,13 @@ jobs:
       - image: 'mcr.microsoft.com/dotnet/core/sdk'
     steps:
       - checkout
-      - run: apt update
-      - run: apt install -y unzip
+#     - run: apt update
+#     - run: apt install -y unzip
+      - run: dotnet tool install --global dotnet-sonarscanner
+      - run: dotnet sonarscanner begin /k:"wburklund_Habitica.NET"
       - run: dotnet build
-      - sonarcloud/scan
+      - run: dotnet sonarscanner end
+#     - sonarcloud/scan
 
 workflows:
   main:
