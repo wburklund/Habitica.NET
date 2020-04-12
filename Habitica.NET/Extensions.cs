@@ -9,11 +9,18 @@ using System.Threading.Tasks;
 
 namespace Habitica.NET
 {
+    /// <summary>
+    /// Class containing extension methods internal to Habitica.NET.
+    /// </summary>
     internal static class Extensions
     {
+        /// <summary>
+        /// Takes a NameValueCollection and converts it to a URI query string. Returns an empty string if the collection is empty.
+        /// </summary>
+        /// <param name="nameValueCollection">The NameValueCollection to convert.</param>
+        /// <returns>A query string built from the NameValueCollection.</returns>
         internal static string ToQueryString(this NameValueCollection nameValueCollection)
         {
-            if (nameValueCollection == null) throw new ArgumentNullException(nameof(nameValueCollection));
             if (nameValueCollection.Count == 0) return "";
             
             var keys = nameValueCollection.AllKeys;
@@ -23,9 +30,32 @@ namespace Habitica.NET
             return "?" + string.Join("&", parameters);
         }
 
+        /// <summary>
+        /// Retrieves the body of an HttpResponseMessage as a string.
+        /// </summary>
+        /// <param name="response">The HttpResponseMessage.</param>
+        /// <returns>The body of the message, read as a string.</returns>
         internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Await();
+
+        /// <summary>
+        /// Converts a string to a <c>System.Uri</c> object (either absolute or relative).
+        /// </summary>
+        /// <param name="stringToConvert">The string to convert.</param>
+        /// <returns>The resultant <c>System.Uri</c> object.</returns>
         internal static Uri ToUri(this string stringToConvert) => new Uri(stringToConvert, UriKind.RelativeOrAbsolute);
 
+        /// <summary>
+        /// Awaits a task, configuring it so that continuation does not have to be run in the caller context.
+        /// </summary>
+        /// <param name="task">The task.</param>
+        internal static void Await(this Task task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
+
+        /// <summary>
+        /// Awaits a task, configuring it so that continuation does not have to be run in the caller context.
+        /// </summary>
+        /// <typeparam name="T">The type of the data held by the task.</typeparam>
+        /// <param name="task">The task.</param>
+        /// <returns>The data held by the task.</returns>
         internal static T Await<T>(this Task<T> task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
     }
 }
