@@ -56,7 +56,7 @@ namespace Habitica.NET
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
             string content = await httpResponse.Content.ReadAsStringAsync();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<T>>(content, );
+            var response = JsonConvert.DeserializeObject<HabiticaResponse<T>>(content);
             return response.Data;
         }
 
