@@ -13,7 +13,8 @@ jobs:
 #     - run: apt install -y unzip
       - run:
           command: |
-            dotnet tool install dotnet-sonarscanner
+            dotnet tool install --global dotnet-sonarscanner
+            export PATH="$PATH:/root/.dotnet/tools" 
             dotnet sonarscanner begin /k:"wburklund_Habitica.NET"
             dotnet build
             dotnet sonarscanner end
