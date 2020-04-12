@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 namespace Habitica.NET
@@ -35,7 +36,7 @@ namespace Habitica.NET
         /// </summary>
         /// <param name="response">The HttpResponseMessage.</param>
         /// <returns>The body of the message, read as a string.</returns>
-        internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Await();
+        internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Safe().GetAwaiter().GetResult();
 
         /// <summary>
         /// Converts a string to a <c>System.Uri</c> object (either absolute or relative).
@@ -45,17 +46,18 @@ namespace Habitica.NET
         internal static Uri ToUri(this string stringToConvert) => new Uri(stringToConvert, UriKind.RelativeOrAbsolute);
 
         /// <summary>
-        /// Awaits a task, configuring it so that continuation does not have to be run in the caller context.
+        /// Prevents deadlocks by configuring a task so that continuation does not have to be run in the caller context.
         /// </summary>
         /// <param name="task">The task.</param>
-        internal static void Await(this Task task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
+        /// <returns>The configured task.</returns>
+        internal static ConfiguredTaskAwaitable Safe(this Task task) => task.ConfigureAwait(false);
 
         /// <summary>
-        /// Awaits a task, configuring it so that continuation does not have to be run in the caller context.
+        /// Prevents deadlocks by configuring a task so that continuation does not have to be run in the caller context.
         /// </summary>
         /// <typeparam name="T">The type of the data held by the task.</typeparam>
         /// <param name="task">The task.</param>
-        /// <returns>The data held by the task.</returns>
-        internal static T Await<T>(this Task<T> task) => task.ConfigureAwait(false).GetAwaiter().GetResult();
+        /// <returns>The configured task.</returns>
+        internal static ConfiguredTaskAwaitable<T> Safe<T>(this Task<T> task) => task.ConfigureAwait(false);
     }
 }

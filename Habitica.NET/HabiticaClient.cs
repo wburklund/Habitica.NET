@@ -64,10 +64,10 @@ namespace Habitica.NET
 
         public async Task<TReturn> GetAsync<TReturn>(Uri requestUri)
         {
-            var httpResponse = await httpClient.GetAsync(requestUri).ConfigureAwait(false);
+            var httpResponse = await httpClient.GetAsync(requestUri).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
-            string content = await httpResponse.Content.ReadAsStringAsync().ConfigureAwait(false);
+            string content = await httpResponse.Content.ReadAsStringAsync().Safe();
             var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(content);
             return response.Data;
         }
@@ -80,7 +80,7 @@ namespace Habitica.NET
             string json = JsonConvert.SerializeObject(requestData);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PostAsync(requestUri, requestBody).ConfigureAwait(false);
+            var httpResponse = await httpClient.PostAsync(requestUri, requestBody).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
             string body = httpResponse.ToBody();
@@ -95,7 +95,7 @@ namespace Habitica.NET
             string json = JsonConvert.SerializeObject(requestData);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PutAsync(requestUri, requestBody).ConfigureAwait(false);
+            var httpResponse = await httpClient.PutAsync(requestUri, requestBody).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
 
             string body = httpResponse.ToBody();
@@ -107,7 +107,7 @@ namespace Habitica.NET
 
         public async Task DeleteAsync(Uri requestUri)
         {
-            var httpResponse = await httpClient.DeleteAsync(requestUri).ConfigureAwait(false);
+            var httpResponse = await httpClient.DeleteAsync(requestUri).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
         }
         
