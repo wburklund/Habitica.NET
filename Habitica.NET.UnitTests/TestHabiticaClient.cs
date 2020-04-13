@@ -10,7 +10,7 @@ namespace Habitica.NET.UnitTests
 {
     public class TestHabiticaClient
     {
-        private HttpResponseMessage response = GetTestResponse();
+        private readonly HttpResponseMessage response = GetTestResponse();
         private HttpRequestMessage capturedRequest;
 
         [Fact]
