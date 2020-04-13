@@ -16,21 +16,21 @@ namespace Habitica.NET.UnitTests
         private HttpRequestMessage capturedRequest;
 
         [Fact]
-        public void HabiticaClient_ConstructorWithNullClient_Throws()
+        public void Constructor_NullClient_Throws()
         {
             var credentials = new HabiticaCredentials();
             Assert.Throws<ArgumentNullException>(() => new HabiticaClient(null, credentials));
         }
 
         [Fact]
-        public void HabiticaClient_ConstructorWithNullCredentials_Throws()
+        public void Constructor_NullCredentials_Throws()
         {
             var client = new HttpClient();
             Assert.Throws<ArgumentNullException>(() => new HabiticaClient(client, null));
         }
 
         [Fact]
-        public async Task HabiticaClient_GetAsync_SendsRequest()
+        public async Task GetAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.GetAsync(new Uri("/foo/bar", UriKind.Relative));
@@ -38,7 +38,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task HabiticaClient_PostAsync_SendsRequest()
+        public async Task PostAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.PostAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
@@ -47,7 +47,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task HabiticaClient_PutAsync_SendsRequest()
+        public async Task PutAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.PutAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
@@ -55,7 +55,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task HabiticaClient_DeleteAsync_SendsRequest()
+        public async Task DeleteAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.DeleteAsync(new Uri("/foo/bar", UriKind.Relative));
