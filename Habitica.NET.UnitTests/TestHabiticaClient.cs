@@ -17,7 +17,7 @@ namespace Habitica.NET.UnitTests
         public async Task HabiticaClient_GetAsync_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            await client.GetAsync<object>(new Uri("/foo/bar", UriKind.Relative));
+            await client.GetAsync(new Uri("/foo/bar", UriKind.Relative));
             Assert.NotNull(capturedRequest);
         }
 
@@ -25,7 +25,7 @@ namespace Habitica.NET.UnitTests
         public async Task HabiticaClient_PostAsync_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            await client.PostAsync<object, object>(new Uri("/foo/bar", UriKind.Relative), default);
+            await client.PostAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
             Assert.NotNull(capturedRequest);
 
         }
@@ -34,7 +34,7 @@ namespace Habitica.NET.UnitTests
         public async Task HabiticaClient_PutAsync_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            await client.PutAsync<object, object>(new Uri("/foo/bar", UriKind.Relative), default);
+            await client.PutAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
             Assert.NotNull(capturedRequest);
         }
 

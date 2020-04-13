@@ -1,6 +1,5 @@
 ﻿// Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
 
-using Habitica.NET.Data.Response;
 using Habitica.NET.Data.Request;
 using Habitica.NET.Exceptions;
 using Newtonsoft.Json;
@@ -20,13 +19,30 @@ using System.Globalization;
 [assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
 {
+    /// <summary>
+    /// Core Habitica client. Handles authentication and configuration.
+    /// </summary>
     [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters", Justification = "Impractical with current design")]
     public sealed class HabiticaClient : IHabiticaClient, IDisposable
     {
+        /// <summary>
+        /// The inner HttpClient used for making requests.
+        /// </summary>
         private readonly HttpClient httpClient;
 
+        /// <summary>
+        /// Constructor. Takes in HttpClient and HabiticaCredentials objects, setting the host URL to the default.
+        /// </summary>
+        /// <param name="client">The HttpClient.</param>
+        /// <param name="credentials">The Habitica credentials.</param>
         public HabiticaClient(HttpClient client, HabiticaCredentials credentials) : this(client, credentials, new Uri(Resources.HostUrl)) { }
 
+        /// <summary>
+        /// Constructor. Takes in HttpClient and HabiticaCredentials objects and sets the host URL to the specified URL.
+        /// </summary>
+        /// <param name="client">The HttpClient.</param>
+        /// <param name="credentials">The Habitica credentials.</param>
+        /// <param name="hostUrl">The Habitica host URL.</param>
         public HabiticaClient(
             HttpClient client,
             HabiticaCredentials credentials,
@@ -34,12 +50,17 @@ namespace Habitica.NET
         {
             if (credentials == null) throw new ArgumentNullException(nameof(credentials));
             if (client == null) throw new ArgumentNullException(nameof(client));
+            if (hostUrl == null) throw new ArgumentNullException(nameof(hostUrl));
             ValidateCredentials(credentials);
 
             ConfigureHttpClient(client, credentials, hostUrl);
             this.httpClient = client;
         }
 
+        /// <summary>
+        /// Called during construction. Verifies that all credential fields have been populated.
+        /// </summary>
+        /// <param name="credentials">The credentials to validate.</param>
         private static void ValidateCredentials(HabiticaCredentials credentials)
         {
             if (credentials.AppAuthorUserId == default) throw new ArgumentException(Resources.ExceptionAppAuthorUserIdEmpty);
@@ -48,6 +69,12 @@ namespace Habitica.NET
             if (credentials.ApiToken == default) throw new ArgumentException(Resources.ExceptionApiTokenEmpty);
         }
 
+        /// <summary>
+        /// Called during construction. Configures the HttpClient's base address and authentication headers.
+        /// </summary>
+        /// <param name="client">The HttpClient.</param>
+        /// <param name="credentials">The Habitica credentials.</param>
+        /// <param name="hostUrl">The Habitica host URL.</param>
         private static void ConfigureHttpClient(
             HttpClient client,
             HabiticaCredentials credentials,
@@ -60,60 +87,56 @@ namespace Habitica.NET
             client.DefaultRequestHeaders.Add("x-api-key", credentials.ApiToken.ToString());
         }
 
-        public async Task<TReturn> GetAsync<TReturn>(Uri requestUri)
+        ///<inheritdoc/>
+        public async Task<string> GetAsync(Uri url)
         {
-            var httpResponse = await httpClient.GetAsync(requestUri).Safe();
+            var httpResponse = await httpClient.GetAsync(url).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
-
-            string content = await httpResponse.Content.ReadAsStringAsync().Safe();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(content);
-            return response.Data;
+            return httpResponse.ToBody();
         }
 
-        public async Task<TReturn> PostAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
+        ///<inheritdoc/>
+        public async Task<string> PostAsync<T>(Uri url, T data)
         {
-            string json = JsonConvert.SerializeObject(requestData);
+            string json = JsonConvert.SerializeObject(data);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PostAsync(requestUri, requestBody).Safe();
+            var httpResponse = await httpClient.PostAsync(url, requestBody).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
-
-            string body = httpResponse.ToBody();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
-            return response.Data;
+            return httpResponse.ToBody();
         }
 
-        public async Task<TReturn> PutAsync<TRequest, TReturn>(Uri requestUri, TRequest requestData)
+        ///<inheritdoc/>
+        public async Task<string> PutAsync<T>(Uri url, T data)
         {
-            string json = JsonConvert.SerializeObject(requestData);
+            string json = JsonConvert.SerializeObject(data);
             var requestBody = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var httpResponse = await httpClient.PutAsync(requestUri, requestBody).Safe();
+            var httpResponse = await httpClient.PutAsync(url, requestBody).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
-
-            string body = httpResponse.ToBody();
-            var response = JsonConvert.DeserializeObject<HabiticaResponse<TReturn>>(body);
-            return response.Data;
+            return httpResponse.ToBody();
         }
 
-        public async Task DeleteAsync(Uri requestUri)
+        ///<inheritdoc/>
+        public async Task DeleteAsync(Uri url)
         {
-            var httpResponse = await httpClient.DeleteAsync(requestUri).Safe();
+            var httpResponse = await httpClient.DeleteAsync(url).Safe();
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
         }
         
-        public Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
+        public async Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
         {
             const string endpoint = "/api/v3/tasks/user";
-
-            if (request == null) throw new ArgumentNullException(nameof(request));
 
             NameValueCollection queryParameters = new NameValueCollection();
             if (request.TaskType.HasValue) queryParameters.Add("type", request.TaskType.Value.ToString("G"));
             if (request.DueDate.HasValue) queryParameters.Add("dueDate", request.DueDate.Value.ToString("o", DateTimeFormatInfo.InvariantInfo));
 
             string path = endpoint + queryParameters.ToQueryString();
-            return GetAsync<IEnumerable<Data.Model.Task>>(path.ToUri());
+            Uri uri = path.ToUri();
+            var res = await GetAsync(uri).Safe();
+
+            return res.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
         }
 
         #region IDisposable Support
