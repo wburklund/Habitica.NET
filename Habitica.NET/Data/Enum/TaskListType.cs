@@ -2,6 +2,9 @@
 
 namespace Habitica.NET.Data.Enum
 {
+    /// <summary>
+    /// List types describing what kinds of tasks should be returned in a query.
+    /// </summary>
     public enum TaskListType
     {
         Habits,

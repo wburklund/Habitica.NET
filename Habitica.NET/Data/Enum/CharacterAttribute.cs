@@ -2,11 +2,14 @@
 
 namespace Habitica.NET.Data.Enum
 {
+    /// <summary>
+    /// Character attributes.
+    /// </summary>
     public enum CharacterAttribute
     {
-        str,
-        per,
-        @int,
-        con
+        STR, // Strength
+        PER, // Perception
+        INT, // Intelligence
+        CON  // Constitution
     }
 }

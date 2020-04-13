@@ -2,6 +2,9 @@
 
 namespace Habitica.NET.Data.Enum
 {
+    /// <summary>
+    /// Type of a given task.
+    /// </summary>
     public enum TaskType
     {
         Habit,
