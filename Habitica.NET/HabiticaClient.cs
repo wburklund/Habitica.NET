@@ -122,7 +122,12 @@ namespace Habitica.NET
             if (!httpResponse.IsSuccessStatusCode) throw new HttpResponseException(httpResponse);
         }
         
-        public async Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
+        public Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
+        {
+            if (request == null) throw new ArgumentNullException(nameof(request));
+            return GetUserTasksInternalAsync(request);
+        }
+        private async Task<IEnumerable<Data.Model.Task>> GetUserTasksInternalAsync(GetUserTasksRequest request)
         {
             const string endpoint = "/api/v3/tasks/user";
 
