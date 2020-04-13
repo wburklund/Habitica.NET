@@ -11,14 +11,14 @@ namespace Habitica.NET.Data.Model
     {
         public CharacterAttribute Attribute { get; set; }
         public bool ByHabitica { get; set; }
-        public object Challenge { get; set; }
+        public object Challenge { get; set; } // TODO: Implement challenge task data.
         [JsonProperty("_id")]
         public Guid ChallengeLeaderId { get; set; }
         public DateTime CreatedAt { get; set; }
-        public GroupTaskData Group { get; set; }
+        public object Group { get; set; } // TODO: Implement group task data.
         public Guid Id { get; set; }
         public string Notes { get; set; }
-        public double Priority { get; set; }
+        public double Priority { get; set; } // TODO: Investigate deserialization of "priority" (difficulty).
         public IEnumerable<Reminder> Reminders { get; set; }
         public IEnumerable<Guid> Tags { get; set; }
         public string Text { get; set; }
