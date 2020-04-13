@@ -5,6 +5,7 @@ using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using System.Net.Http;
 using System.Runtime.CompilerServices;
@@ -68,6 +69,7 @@ namespace Habitica.NET
         /// <typeparam name="T">The data type to deserialize.</typeparam>
         /// <param name="body">The response body from which the object will be deserialized.</param>
         /// <returns>The data object.</returns>
+        [SuppressMessage("Minor Code Smells", "S4018: Refactor this method to have parameters matching all the type parameters.", Justification = "Type parameter only used for output.")]
         internal static T UnwrapHabiticaResponse<T>(this string body)
         {
             var response = JsonConvert.DeserializeObject<HabiticaResponse<T>>(body);
