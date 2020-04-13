@@ -1,4 +1,6 @@
-﻿using Habitica.NET.Exceptions;
+﻿// Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
+
+using Habitica.NET.Exceptions;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
