@@ -3,6 +3,7 @@
 using Moq;
 using Moq.Protected;
 using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Habitica.NET.UnitTests
         [Fact]
         public void Constructor_NullClient_Throws()
         {
-            var credentials = new HabiticaCredentials();
+            var credentials = GetTestCredentials();
             Assert.Throws<ArgumentNullException>(() => new HabiticaClient(null, credentials));
         }
 
@@ -27,6 +28,14 @@ namespace Habitica.NET.UnitTests
         {
             var client = new HttpClient();
             Assert.Throws<ArgumentNullException>(() => new HabiticaClient(client, null));
+        }
+
+        [Theory]
+        [MemberData(nameof(GetInvalidCredentials))]
+        public void Constructor_InvalidCredentials_Throws(object credentials)
+        {
+            var client = new HttpClient();
+            Assert.Throws<ArgumentException>(() => new HabiticaClient(client, (HabiticaCredentials)credentials));
         }
 
         [Fact]
@@ -82,6 +91,14 @@ namespace Habitica.NET.UnitTests
 
         private HabiticaCredentials GetTestCredentials()
             => new HabiticaCredentials(Guid.NewGuid(), "Test", Guid.NewGuid(), Guid.NewGuid());
+
+        public static IEnumerable<object[]> GetInvalidCredentials()
+        {
+            yield return new object[] { new HabiticaCredentials(Guid.Empty, "Test", Guid.NewGuid(), Guid.NewGuid()) };
+            yield return new object[] { new HabiticaCredentials(Guid.NewGuid(), null, Guid.NewGuid(), Guid.NewGuid()) };
+            yield return new object[] { new HabiticaCredentials(Guid.NewGuid(), "Test", Guid.Empty, Guid.NewGuid()) };
+            yield return new object[] { new HabiticaCredentials(Guid.NewGuid(), "Test", Guid.NewGuid(), Guid.Empty) };
+        }
 
         private Mock<HttpMessageHandler> GetMockHandler()
         {
