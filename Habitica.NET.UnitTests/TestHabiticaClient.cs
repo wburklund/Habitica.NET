@@ -16,6 +16,20 @@ namespace Habitica.NET.UnitTests
         private HttpRequestMessage capturedRequest;
 
         [Fact]
+        public void HabiticaClient_ConstructorWithNullClient_Throws()
+        {
+            var credentials = new HabiticaCredentials();
+            Assert.Throws<ArgumentNullException>(() => new HabiticaClient(null, credentials));
+        }
+
+        [Fact]
+        public void HabiticaClient_ConstructorWithNullCredentials_Throws()
+        {
+            var client = new HttpClient();
+            Assert.Throws<ArgumentNullException>(() => new HabiticaClient(client, null));
+        }
+
+        [Fact]
         public async Task HabiticaClient_GetAsync_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
