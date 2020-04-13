@@ -10,6 +10,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.circleci\config.yml = .circleci\config.yml
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habitica.NET.UnitTests", "Habitica.NET.UnitTests\Habitica.NET.UnitTests.csproj", "{7559A454-5530-44C4-8315-6DB40EAF6715}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -20,6 +22,10 @@ Global
 		{D6842AE4-BAF5-4094-AD50-2E4B804DD518}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D6842AE4-BAF5-4094-AD50-2E4B804DD518}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D6842AE4-BAF5-4094-AD50-2E4B804DD518}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7559A454-5530-44C4-8315-6DB40EAF6715}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7559A454-5530-44C4-8315-6DB40EAF6715}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7559A454-5530-44C4-8315-6DB40EAF6715}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7559A454-5530-44C4-8315-6DB40EAF6715}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

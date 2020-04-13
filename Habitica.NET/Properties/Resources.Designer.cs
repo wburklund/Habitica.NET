@@ -97,7 +97,7 @@ namespace Habitica.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to .
+        ///   Looks up a localized string similar to https://habitica.com.
         /// </summary>
         internal static string HostUrl {
             get {
