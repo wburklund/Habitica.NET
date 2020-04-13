@@ -2,7 +2,7 @@
 
 using System;
 
-namespace Habitica.NET.Data.Model
+namespace Habitica.NET.Data.Notification
 {
     public class Notification
     {
