@@ -2,6 +2,7 @@
 
 using System;
 using System.Net.Http;
+using System.Runtime.Serialization;
 
 namespace Habitica.NET.Exceptions
 {
@@ -20,8 +21,6 @@ namespace Habitica.NET.Exceptions
         {
             this.Response = response;
         }
-        protected HttpResponseException(
-          System.Runtime.Serialization.SerializationInfo info,
-          System.Runtime.Serialization.StreamingContext context) : base(info, context) { }
+        protected HttpResponseException(SerializationInfo info, StreamingContext context) : base(info, context) { }
     }
 }
