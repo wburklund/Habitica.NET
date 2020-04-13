@@ -22,7 +22,6 @@ namespace Habitica.NET
     /// <summary>
     /// Core Habitica client. Handles authentication and configuration.
     /// </summary>
-    [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters", Justification = "Impractical with current design")]
     public sealed class HabiticaClient : IHabiticaClient, IDisposable
     {
         /// <summary>

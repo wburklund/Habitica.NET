@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 namespace Habitica.NET
 {
-    [SuppressMessage("Minor Code Smell", "S4018:Generic methods should provide type parameters.", Justification = "Impractical with current design")]
     public interface IHabiticaClient
     {
         /// <summary>
