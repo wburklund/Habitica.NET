@@ -12,7 +12,9 @@ using Habitica.NET.Properties;
 using System.Text;
 using System.Resources;
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
+[assembly: InternalsVisibleTo("Habitica.NET.UnitTests")]
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
