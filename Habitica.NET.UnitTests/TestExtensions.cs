@@ -1,4 +1,7 @@
-﻿using System.Collections.Specialized;
+﻿using Habitica.NET.Data.Response;
+using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 using Xunit;
@@ -60,6 +63,24 @@ namespace Habitica.NET.UnitTests
             collection.Add("test1", "foo");
             collection.Add("test2", "bar");
             Assert.Equal("?test1=foo&test2=bar", collection.ToQueryString());
+        }
+
+        [Fact]
+        public void UnreadNotifications_Called_GetsUnreadNotifications()
+        {
+            var notifications = new List<Data.Model.Notification>()
+            {
+                new Data.Model.Notification() { Seen = true },
+                new Data.Model.Notification() { Seen = true },
+                new Data.Model.Notification() { Seen = false }
+            };
+
+            var response = new HabiticaResponse<int>()
+            {
+                Notifications = notifications
+            };
+
+            Assert.Equal(2, response.UnreadNotifications().Count());
         }
 
         [Fact]

@@ -64,6 +64,14 @@ namespace Habitica.NET
         }
 
         /// <summary>
+        /// Gets unread notifications from a Habitica response.
+        /// </summary>
+        /// <typeparam name="T">The type of the Habitica response.</typeparam>
+        /// <param name="response">The Habitica response.</param>
+        /// <returns>The unread notifications.</returns>
+        internal static IEnumerable<Data.Model.Notification> UnreadNotifications<T>(this HabiticaResponse<T> response) => response.Notifications.Where(n => !n.Seen);
+
+        /// <summary>
         /// Deserializes and extracts the data object from a Habitica API response.
         /// </summary>
         /// <typeparam name="T">The data type to deserialize.</typeparam>
