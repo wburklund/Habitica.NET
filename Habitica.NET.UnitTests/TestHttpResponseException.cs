@@ -21,7 +21,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task DefaultConstructor_Invoke_Succeeds()
+        public async Task DefaultConstructor_Called_Succeeds()
         {
             await Assert.ThrowsAsync<HttpResponseException>(() =>
             {
@@ -30,7 +30,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task StringConstructor_Invoke_Succeeds()
+        public async Task StringConstructor_Called_Succeeds()
         {
             await Assert.ThrowsAsync<HttpResponseException>(() =>
             {
@@ -39,7 +39,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task StringExceptionConstructor_Invoke_Succeeds()
+        public async Task StringExceptionConstructor_Called_Succeeds()
         {
             await Assert.ThrowsAsync<HttpResponseException>(() =>
             {
@@ -49,7 +49,7 @@ namespace Habitica.NET.UnitTests
 
 
         [Fact]
-        public async Task MessageConstructor_Invoke_Succeeds()
+        public async Task MessageConstructor_Called_Succeeds()
         {
             await Assert.ThrowsAsync<HttpResponseException>(() =>
             {
@@ -58,7 +58,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public async Task MessageExceptionConstructor_Invoke_Succeeds()
+        public async Task MessageExceptionConstructor_Called_Succeeds()
         {
             await Assert.ThrowsAsync<HttpResponseException>(() =>
             {

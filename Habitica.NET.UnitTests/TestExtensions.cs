@@ -8,7 +8,7 @@ namespace Habitica.NET.UnitTests
     public class TestExtensions
     {
         [Fact]
-        public void Safe_Invoked_ConfiguresAwait()
+        public void Safe_Called_ConfiguresAwait()
         {
             var task = Task.CompletedTask;
             var safe = task.Safe();
@@ -16,7 +16,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public void SafeTyped_Invoked_ConfiguresAwait()
+        public void SafeTyped_Called_ConfiguresAwait()
         {
             var task = Task.FromResult(1);
             var safe = task.Safe();
@@ -24,7 +24,7 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
-        public void ToBody_Invoked_ReturnsMessageBody()
+        public void ToBody_Called_ReturnsMessageBody()
         {
             var message = new HttpResponseMessage();
             message.Content = new StringContent("Foo");
