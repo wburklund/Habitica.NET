@@ -71,7 +71,7 @@ namespace Habitica.NET.UnitTests
             var notifications = new List<Data.Model.Notification>()
             {
                 new Data.Model.Notification() { Seen = true },
-                new Data.Model.Notification() { Seen = true },
+                new Data.Model.Notification() { Seen = false },
                 new Data.Model.Notification() { Seen = false }
             };
 
