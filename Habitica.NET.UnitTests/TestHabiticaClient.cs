@@ -1,5 +1,6 @@
 // Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
 
+using Habitica.NET.Exceptions;
 using Moq;
 using Moq.Protected;
 using System;
@@ -14,7 +15,7 @@ namespace Habitica.NET.UnitTests
 {
     public class TestHabiticaClient
     {
-        private readonly HttpResponseMessage response = GetSuccessResponse();
+        private HttpResponseMessage response = GetSuccessResponse();
         private HttpRequestMessage capturedRequest;
 
         [Fact]
@@ -56,12 +57,28 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
+        public async Task GetAsync_BadResponse_Throws()
+        {
+            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            this.response = GetFailResponse();
+            await Assert.ThrowsAsync<HttpResponseException>(() => client.GetAsync(new Uri("/foo/bar", UriKind.Relative)));
+        }
+
+
+        [Fact]
         public async Task PostAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.PostAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
             Assert.NotNull(capturedRequest);
+        }
 
+        [Fact]
+        public async Task PostAsync_BadResponse_Throws()
+        {
+            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            this.response = GetFailResponse();
+            await Assert.ThrowsAsync<HttpResponseException>(() => client.PostAsync(new Uri("/foo/bar", UriKind.Relative), 1));
         }
 
         [Fact]
@@ -73,11 +90,27 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
+        public async Task PutAsync_BadResponse_Throws()
+        {
+            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            this.response = GetFailResponse();
+            await Assert.ThrowsAsync<HttpResponseException>(() => client.PutAsync(new Uri("/foo/bar", UriKind.Relative), 1));
+        }
+
+        [Fact]
         public async Task DeleteAsync_Called_SendsRequest()
         {
             (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
             await client.DeleteAsync(new Uri("/foo/bar", UriKind.Relative));
             Assert.NotNull(capturedRequest);
+        }
+
+        [Fact]
+        public async Task DeleteAsync_BadResponse_Throws()
+        {
+            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            this.response = GetFailResponse();
+            await Assert.ThrowsAsync<HttpResponseException>(() => client.DeleteAsync(new Uri("/foo/bar", UriKind.Relative)));
         }
 
         #region Infrastructure
