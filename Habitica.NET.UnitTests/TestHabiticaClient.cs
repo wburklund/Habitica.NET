@@ -4,6 +4,7 @@ using Moq;
 using Moq.Protected;
 using System;
 using System.Collections.Generic;
+using System.Net;
 using System.Net.Http;
 using System.Threading;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace Habitica.NET.UnitTests
 {
     public class TestHabiticaClient
     {
-        private readonly HttpResponseMessage response = GetTestResponse();
+        private readonly HttpResponseMessage response = GetSuccessResponse();
         private HttpRequestMessage capturedRequest;
 
         [Fact]
@@ -28,6 +29,14 @@ namespace Habitica.NET.UnitTests
         {
             var client = new HttpClient();
             Assert.Throws<ArgumentNullException>(() => new HabiticaClient(client, null));
+        }
+
+        [Fact]
+        public void Constructor_NullHostUrl_Throws()
+        {
+            var client = new HttpClient();
+            var credentials = GetTestCredentials();
+            Assert.Throws<ArgumentNullException>(() => new HabiticaClient(client, credentials, null));
         }
 
         [Theory]
@@ -73,9 +82,16 @@ namespace Habitica.NET.UnitTests
 
         #region Infrastructure
 
-        private static HttpResponseMessage GetTestResponse()
+        private static HttpResponseMessage GetSuccessResponse()
         {
-            var testResponse = new HttpResponseMessage(System.Net.HttpStatusCode.OK);
+            var testResponse = new HttpResponseMessage(HttpStatusCode.OK);
+            testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
+            return testResponse;
+        }
+
+        private static HttpResponseMessage GetFailResponse()
+        {
+            var testResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
             testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
             return testResponse;
         }
