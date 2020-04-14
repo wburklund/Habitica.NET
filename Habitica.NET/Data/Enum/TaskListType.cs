@@ -4,6 +4,8 @@ namespace Habitica.NET.Data.Enum
 {
     /// <summary>
     /// List types describing what kinds of tasks should be returned in a query.
+    /// 
+    /// CompletedTodos returns only the 30 last completed todos.
     /// </summary>
     public enum TaskListType
     {
