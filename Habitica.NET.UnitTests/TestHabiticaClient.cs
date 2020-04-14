@@ -1,8 +1,6 @@
 // Copyright (c) Will Burklund. Licensed under the MIT License.  See LICENSE in the project root for license information.
 
 using Habitica.NET.Exceptions;
-using Moq;
-using Moq.Protected;
 using System;
 using System.Collections.Generic;
 using System.Net;
@@ -15,9 +13,6 @@ namespace Habitica.NET.UnitTests
 {
     public class TestHabiticaClient
     {
-        private HttpResponseMessage response = GetSuccessResponse();
-        private HttpRequestMessage capturedRequest;
-
         [Fact]
         public void Constructor_NullClient_Throws()
         {
@@ -49,18 +44,36 @@ namespace Habitica.NET.UnitTests
         }
 
         [Fact]
+        public void Dispose_Called_DisposesMessageHandler()
+        {
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            client.Dispose();
+            Assert.Equal(1, handler.TimesDisposed);
+        }
+
+        [Fact]
+        public void Dispose_CalledMultiple_DisposesMessageHandlerOnce()
+        {
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            client.Dispose();
+            client.Dispose();
+            Assert.Equal(1, handler.TimesDisposed);
+        }
+
+
+        [Fact]
         public async Task GetAsync_Called_SendsRequest()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
             await client.GetAsync(new Uri("/foo/bar", UriKind.Relative));
-            Assert.NotNull(capturedRequest);
+            Assert.NotNull(handler.CapturedRequest);
         }
 
         [Fact]
         public async Task GetAsync_BadResponse_Throws()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            this.response = GetFailResponse();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            handler.ResponseToSend = GetFailResponse();
             await Assert.ThrowsAsync<HttpResponseException>(() => client.GetAsync(new Uri("/foo/bar", UriKind.Relative)));
         }
 
@@ -68,74 +81,60 @@ namespace Habitica.NET.UnitTests
         [Fact]
         public async Task PostAsync_Called_SendsRequest()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
             await client.PostAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
-            Assert.NotNull(capturedRequest);
+            Assert.NotNull(handler.CapturedRequest);
         }
 
         [Fact]
         public async Task PostAsync_BadResponse_Throws()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            this.response = GetFailResponse();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            handler.ResponseToSend = GetFailResponse();
             await Assert.ThrowsAsync<HttpResponseException>(() => client.PostAsync(new Uri("/foo/bar", UriKind.Relative), 1));
         }
 
         [Fact]
         public async Task PutAsync_Called_SendsRequest()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
             await client.PutAsync<object>(new Uri("/foo/bar", UriKind.Relative), default);
-            Assert.NotNull(capturedRequest);
+            Assert.NotNull(handler.CapturedRequest);
         }
 
         [Fact]
         public async Task PutAsync_BadResponse_Throws()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            this.response = GetFailResponse();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            handler.ResponseToSend = GetFailResponse();
             await Assert.ThrowsAsync<HttpResponseException>(() => client.PutAsync(new Uri("/foo/bar", UriKind.Relative), 1));
         }
 
         [Fact]
         public async Task DeleteAsync_Called_SendsRequest()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
             await client.DeleteAsync(new Uri("/foo/bar", UriKind.Relative));
-            Assert.NotNull(capturedRequest);
+            Assert.NotNull(handler.CapturedRequest);
         }
 
         [Fact]
         public async Task DeleteAsync_BadResponse_Throws()
         {
-            (HabiticaClient client, Mock<HttpMessageHandler> mock) = GetTestTools();
-            this.response = GetFailResponse();
+            (HabiticaClient client, TestHttpMessageHandler handler) = GetTestTools();
+            handler.ResponseToSend = GetFailResponse();
             await Assert.ThrowsAsync<HttpResponseException>(() => client.DeleteAsync(new Uri("/foo/bar", UriKind.Relative)));
         }
 
         #region Infrastructure
 
-        private static HttpResponseMessage GetSuccessResponse()
+        private (HabiticaClient, TestHttpMessageHandler) GetTestTools()
         {
-            var testResponse = new HttpResponseMessage(HttpStatusCode.OK);
-            testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
-            return testResponse;
-        }
-
-        private static HttpResponseMessage GetFailResponse()
-        {
-            var testResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
-            testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
-            return testResponse;
-        }
-
-        private (HabiticaClient, Mock<HttpMessageHandler>) GetTestTools()
-        {
-            var mockHandler = GetMockHandler();
-            var httpClient = new HttpClient(mockHandler.Object);
+            var handler = new TestHttpMessageHandler();
+            var httpClient = new HttpClient(handler);
             var credentials = GetTestCredentials();
             var client = new HabiticaClient(httpClient, credentials);
-            return (client, mockHandler);
+            return (client, handler);
         }
 
         private HabiticaCredentials GetTestCredentials()
@@ -149,23 +148,42 @@ namespace Habitica.NET.UnitTests
             yield return new object[] { new HabiticaCredentials(Guid.NewGuid(), "Test", Guid.NewGuid(), Guid.Empty) };
         }
 
-        private Mock<HttpMessageHandler> GetMockHandler()
+        private class TestHttpMessageHandler : HttpMessageHandler
         {
-            var mock = new Mock<HttpMessageHandler>();
+            public HttpRequestMessage CapturedRequest { get; set; }
+            public HttpResponseMessage ResponseToSend { get; set; } = GetSuccessResponse();
+            public int TimesDisposed { get; set; }
+            public int NumberOfRequests { get; set; }
+            protected override void Dispose(bool disposing)
+            {
+                if (TimesDisposed == 0)
+                {
+                    base.Dispose(disposing);
+                }
 
-            mock.Protected().As<IMockableHandler>()
-                .Setup(m => m.SendAsync(It.IsAny<HttpRequestMessage>(), It.IsAny<CancellationToken>()))
-                .Returns((HttpRequestMessage request, CancellationToken token) => {
-                    this.capturedRequest = request;
-                    return Task.FromResult(this.response);
-                });
+                TimesDisposed += 1;
+            }
 
-            return mock;
+            protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
+            {
+                NumberOfRequests += 1;
+                CapturedRequest = request;
+                return Task.FromResult(ResponseToSend);
+            }
         }
 
-        internal interface IMockableHandler
+        private static HttpResponseMessage GetSuccessResponse()
         {
-            Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token);
+            var testResponse = new HttpResponseMessage(HttpStatusCode.OK);
+            testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
+            return testResponse;
+        }
+
+        private static HttpResponseMessage GetFailResponse()
+        {
+            var testResponse = new HttpResponseMessage(HttpStatusCode.BadRequest);
+            testResponse.Content = new StringContent(@"{""data"":""{}"", ""success"":true}");
+            return testResponse;
         }
 
         #endregion
