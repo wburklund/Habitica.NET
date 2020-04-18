@@ -106,7 +106,7 @@ namespace Habitica.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Value cannot be default..
+        ///   Looks up a localized string similar to Value must not be default..
         /// </summary>
         internal static string ExceptionDefault {
             get {
@@ -115,7 +115,16 @@ namespace Habitica.NET.Properties {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to String cannot be null or whitespace..
+        ///   Looks up a localized string similar to Collection must not be null or empty..
+        /// </summary>
+        internal static string ExceptionEmptyCollection {
+            get {
+                return ResourceManager.GetString("ExceptionEmptyCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String must not be null or whitespace..
         /// </summary>
         internal static string ExceptionWhitespaceString {
             get {

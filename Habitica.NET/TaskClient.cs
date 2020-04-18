@@ -8,6 +8,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Linq;
 using System.Net.Http;
 using System.Threading.Tasks;
 
@@ -21,6 +22,8 @@ namespace Habitica.NET
         {
             this.client = client;
         }
+
+        // TODO: Add field-level task validation
 
         /// <summary>
         /// Adds a tag to the given task.
@@ -68,7 +71,7 @@ namespace Habitica.NET
         /// Approves a user assigned to a group task.
         /// </summary>
         /// <param name="taskId">The task ID.</param>
-        /// <param name="userId">The user ID.</param>
+        /// <param name="userId">The ID of the user that will be approved.</param>
         /// <returns>The approved task.</returns>
         public Task<Data.Model.Task> ApproveUserTaskAsync(Guid taskId, Guid userId)
         {
@@ -83,22 +86,40 @@ namespace Habitica.NET
             return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
-        public Task AssignUserTaskAsync(Guid taskId, Guid assignedUserId)
+        /// <summary>
+        /// Assigns a group task to a user.
+        /// </summary>
+        /// <param name="taskId">The task ID.</param>
+        /// <param name="assignedUserId">The ID of the user that will be assigned to the task.</param>
+        /// <returns>The assigned task.</returns>
+        public Task<Data.Model.Task> AssignUserTaskAsync(Guid taskId, Guid assignedUserId)
         {
+            if (taskId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(taskId));
+            if (assignedUserId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(assignedUserId));
             return AssignUserTaskInternalAsync(taskId, assignedUserId);
         }
-        private async Task AssignUserTaskInternalAsync(Guid taskId, Guid assignedUserId)
+        private async Task<Data.Model.Task> AssignUserTaskInternalAsync(Guid taskId, Guid assignedUserId)
         {
-
+            string path = $"/api/v3/tasks/{taskId}/assign/{assignedUserId}";
+            var response = await client.PostAsync(path.ToUri(), null).Safe();
+            return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="challengeId"></param>
+        /// <param name="tasks"></param>
+        /// <returns></returns>
         public Task CreateChallengeTaskAsync(Guid challengeId, IEnumerable<Data.Model.Task> tasks)
         {
+            if (challengeId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(challengeId));
+            if (tasks == null || !tasks.Any()) throw new ArgumentException(Resources.ExceptionEmptyCollection, nameof(tasks));
             return CreateChallengeTaskInternalAsync(challengeId, tasks);
         }
         private async Task CreateChallengeTaskInternalAsync(Guid challengeId, IEnumerable<Data.Model.Task> tasks)
         {
-
+            // TODO: Implement
         }
 
         public Task CreateGroupTaskAsync(Guid groupId, IEnumerable<Data.Model.Task> tasks)

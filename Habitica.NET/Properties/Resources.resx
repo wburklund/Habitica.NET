@@ -133,9 +133,12 @@
     <value>The application's name must be provided.</value>
   </data>
   <data name="ExceptionDefault" xml:space="preserve">
-    <value>Value cannot be default.</value>
+    <value>Value must not be default.</value>
+  </data>
+  <data name="ExceptionEmptyCollection" xml:space="preserve">
+    <value>Collection must not be null or empty.</value>
   </data>
   <data name="ExceptionWhitespaceString" xml:space="preserve">
-    <value>String cannot be null or whitespace.</value>
+    <value>String must not be null or whitespace.</value>
   </data>
 </root>
