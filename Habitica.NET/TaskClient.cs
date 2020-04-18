@@ -22,6 +22,12 @@ namespace Habitica.NET
             this.client = client;
         }
 
+        /// <summary>
+        /// Adds a tag to the given task.
+        /// </summary>
+        /// <param name="taskId">The task ID or alias.</param>
+        /// <param name="tagId">The tag ID.</param>
+        /// <returns>The updated task.</returns>
         public Task<Data.Model.Task> AddTaskTagAsync(string taskId, Guid tagId)
         {
             if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
@@ -35,6 +41,12 @@ namespace Habitica.NET
             return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
+        /// <summary>
+        /// Adds an item to the given task's checklist.
+        /// </summary>
+        /// <param name="taskId">The task ID or alias.</param>
+        /// <param name="itemText">The text of the checklist item.</param>
+        /// <returns>The updated task.</returns>
         public Task<Data.Model.Task> AddTaskChecklistItemAsync(string taskId, string itemText)
         {
             if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
@@ -52,6 +64,12 @@ namespace Habitica.NET
             }
         }
 
+        /// <summary>
+        /// Approves a user assigned to a group task.
+        /// </summary>
+        /// <param name="taskId">The task ID.</param>
+        /// <param name="userId">The user ID.</param>
+        /// <returns>The approved task.</returns>
         public Task<Data.Model.Task> ApproveUserTaskAsync(Guid taskId, Guid userId)
         {
             if (taskId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(taskId));
