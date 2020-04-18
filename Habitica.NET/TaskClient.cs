@@ -7,6 +7,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.Globalization;
+using System.Net.Http;
 using System.Threading.Tasks;
 
 namespace Habitica.NET
@@ -31,17 +32,19 @@ namespace Habitica.NET
             return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
-        public Task AddTaskChecklistItemAsync(Guid taskId, string itemText)
+        public Task<Data.Model.Task> AddTaskChecklistItemAsync(string taskId, string itemText)
         {
-            return AddTaskChecklistItemInternalAsync(taskId.ToString(), itemText);
+            return AddTaskChecklistItemInternalAsync(taskId, itemText);
         }
-        public Task AddTaskChecklistItemAsync(string taskAlias, string itemText)
+        private async Task<Data.Model.Task> AddTaskChecklistItemInternalAsync(string taskId, string itemText)
         {
-            return AddTaskChecklistItemInternalAsync(taskAlias, itemText);
-        }
-        private async Task AddTaskChecklistItemInternalAsync(string taskId, string itemText)
-        {
-
+            string path = $"/api/v3/tasks/{taskId}/checklist";
+            var body = new { text = itemText };
+            using (var content = new StringContent(body.ToJson()))
+            {
+                var response = await client.PostAsync(path.ToUri(), content);
+                return response.UnwrapHabiticaResponse<Data.Model.Task>();
+            }
         }
 
         public Task ApproveUserTaskAsync(Guid taskId, Guid userId)
