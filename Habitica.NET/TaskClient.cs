@@ -3,6 +3,7 @@
 using Habitica.NET.Data.Enum;
 using Habitica.NET.Data.Request;
 using Habitica.NET.Interfaces;
+using Habitica.NET.Properties;
 using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
@@ -23,6 +24,8 @@ namespace Habitica.NET
 
         public Task<Data.Model.Task> AddTaskTagAsync(string taskId, Guid tagId)
         {
+            if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
+            if (tagId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(tagId));
             return AddTaskTagInternalAsync(taskId, tagId);
         }
         private async Task<Data.Model.Task> AddTaskTagInternalAsync(string taskId, Guid tagId)
@@ -34,6 +37,8 @@ namespace Habitica.NET
 
         public Task<Data.Model.Task> AddTaskChecklistItemAsync(string taskId, string itemText)
         {
+            if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
+            if (string.IsNullOrWhiteSpace(itemText)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(itemText));
             return AddTaskChecklistItemInternalAsync(taskId, itemText);
         }
         private async Task<Data.Model.Task> AddTaskChecklistItemInternalAsync(string taskId, string itemText)

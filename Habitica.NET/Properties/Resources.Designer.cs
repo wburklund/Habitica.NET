@@ -104,5 +104,23 @@ namespace Habitica.NET.Properties {
                 return ResourceManager.GetString("ExceptionAppNameEmpty", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Value cannot be default..
+        /// </summary>
+        internal static string ExceptionDefault {
+            get {
+                return ResourceManager.GetString("ExceptionDefault", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to String cannot be null or whitespace..
+        /// </summary>
+        internal static string ExceptionWhitespaceString {
+            get {
+                return ResourceManager.GetString("ExceptionWhitespaceString", resourceCulture);
+            }
+        }
     }
 }
