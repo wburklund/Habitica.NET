@@ -75,6 +75,19 @@ namespace Habitica.NET
         /// Deserializes and extracts the data object from a Habitica API response.
         /// </summary>
         /// <typeparam name="T">The data type to deserialize.</typeparam>
+        /// <param name="message">The response from which the object will be deserialized.</param>
+        /// <returns>The data object.</returns>
+        [SuppressMessage("Minor Code Smells", "S4018: Refactor this method to have parameters matching all the type parameters.", Justification = "Type parameter only used for output.")]
+        internal static T UnwrapHabiticaResponse<T>(this HttpResponseMessage message)
+        {
+            string body = message.Content.ReadAsStringAsync().Safe().GetAwaiter().GetResult();
+            return body.UnwrapHabiticaResponse<T>();
+        }
+
+        /// <summary>
+        /// Deserializes and extracts the data object from a Habitica API response body.
+        /// </summary>
+        /// <typeparam name="T">The data type to deserialize.</typeparam>
         /// <param name="body">The response body from which the object will be deserialized.</param>
         /// <returns>The data object.</returns>
         [SuppressMessage("Minor Code Smells", "S4018: Refactor this method to have parameters matching all the type parameters.", Justification = "Type parameter only used for output.")]
