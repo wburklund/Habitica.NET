@@ -16,7 +16,7 @@ namespace Habitica.NET.Tests
         public async Task GetUserTasksAsync_NullRequest_ThrowsArgumentNullException()
         {
             (var client, var handler) = InstrumentedTaskClient();
-            await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetUserTasksAsync(null))
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetUserTasksAsync(null));
         }
 
         [Fact]
