@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Habitica.NET.Tests
 {
-    public static class Extensions
+    internal static class Extensions
     {
         public static HttpResponseMessage WrapResponseBody(this string body) => body.WrapResponseBody(HttpStatusCode.OK);
 
