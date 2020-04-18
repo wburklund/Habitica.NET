@@ -10,7 +10,7 @@ namespace Habitica.NET
 {
     public class CoreClient : IHttpClient
     {
-        private HttpClient httpClient;
+        private readonly HttpClient httpClient;
 
         public static CoreClient Create(HabiticaCredentials credentials, HttpMessageHandler handler)
             => Create(credentials, handler, new Uri(Resources.BaseAddress));
