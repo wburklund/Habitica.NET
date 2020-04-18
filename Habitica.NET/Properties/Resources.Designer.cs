@@ -61,6 +61,15 @@ namespace Habitica.NET.Properties {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to https://habitica.com.
+        /// </summary>
+        internal static string BaseAddress {
+            get {
+                return ResourceManager.GetString("BaseAddress", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to A Habitica API token must be provided for authentication..
         /// </summary>
         internal static string ExceptionApiTokenEmpty {
@@ -93,15 +102,6 @@ namespace Habitica.NET.Properties {
         internal static string ExceptionAppNameEmpty {
             get {
                 return ResourceManager.GetString("ExceptionAppNameEmpty", resourceCulture);
-            }
-        }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to https://habitica.com.
-        /// </summary>
-        internal static string HostUrl {
-            get {
-                return ResourceManager.GetString("HostUrl", resourceCulture);
             }
         }
     }

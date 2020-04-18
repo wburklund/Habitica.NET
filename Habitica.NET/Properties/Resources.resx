@@ -117,6 +117,9 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="BaseAddress" xml:space="preserve">
+    <value>https://habitica.com</value>
+  </data>
   <data name="ExceptionApiTokenEmpty" xml:space="preserve">
     <value>A Habitica API token must be provided for authentication.</value>
   </data>
@@ -128,8 +131,5 @@
   </data>
   <data name="ExceptionAppNameEmpty" xml:space="preserve">
     <value>The application's name must be provided.</value>
-  </data>
-  <data name="HostUrl" xml:space="preserve">
-    <value>https://habitica.com</value>
   </data>
 </root>
