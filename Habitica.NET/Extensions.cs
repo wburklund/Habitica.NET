@@ -41,6 +41,13 @@ namespace Habitica.NET
         internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Safe().GetAwaiter().GetResult();
 
         /// <summary>
+        /// Converts an object to its JSON representation using JSON.NET.
+        /// </summary>
+        /// <param name="obj">The object to serialize.</param>
+        /// <returns>The serialized object.</returns>
+        internal static string ToJson(this object obj) => JsonConvert.SerializeObject(obj);
+
+        /// <summary>
         /// Converts a string to a <c>System.Uri</c> object (either absolute or relative).
         /// </summary>
         /// <param name="stringToConvert">The string to convert.</param>
