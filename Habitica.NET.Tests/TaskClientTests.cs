@@ -13,6 +13,13 @@ namespace Habitica.NET.Tests
         }
 
         [Fact]
+        public async Task GetUserTasksAsync_NullRequest_ThrowsArgumentNullException()
+        {
+            (var client, var handler) = InstrumentedTaskClient();
+            await Assert.ThrowsAsync<ArgumentNullException>(() => client.GetUserTasksAsync(null))
+        }
+
+        [Fact]
         public async Task GetUserTasksAsync_Default_ExecutesRequestProperly()
         {
             (var client, var handler) = InstrumentedTaskClient();
