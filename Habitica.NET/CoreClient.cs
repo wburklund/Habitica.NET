@@ -4,8 +4,12 @@ using Habitica.NET.Interfaces;
 using Habitica.NET.Properties;
 using System;
 using System.Net.Http;
+using System.Resources;
 using System.Threading.Tasks;
 
+[assembly: System.Runtime.InteropServices.ComVisible(false)]
+[assembly: CLSCompliant(true)]
+[assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
 {
     public class CoreClient : IHttpClient
