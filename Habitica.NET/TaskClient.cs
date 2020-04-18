@@ -20,13 +20,15 @@ namespace Habitica.NET
             this.client = client;
         }
 
-        public Task AddTaskTagAsync(Guid task, Guid tag)
+        public Task<Data.Model.Task> AddTaskTagAsync(string taskId, Guid tagId)
         {
-            return AddTaskTagInternalAsync(task, tag);
+            return AddTaskTagInternalAsync(taskId, tagId);
         }
-        private async Task AddTaskTagInternalAsync(Guid task, Guid tag)
-        { 
-
+        private async Task<Data.Model.Task> AddTaskTagInternalAsync(string taskId, Guid tagId)
+        {
+            string path = $"/api/v3/tasks/{taskId}/tags/{tagId}";
+            var response = await client.PostAsync(path.ToUri(), null).Safe();
+            return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
         public Task AddTaskChecklistItemAsync(Guid taskId, string itemText)
@@ -171,9 +173,8 @@ namespace Habitica.NET
             string path = endpoint + queryParameters.ToQueryString();
             Uri uri = path.ToUri();
             var res = await client.GetAsync(uri).Safe();
-            var body = await res.Content.ReadAsStringAsync().Safe();
 
-            return body.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+            return res.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
         }
     }
 }
