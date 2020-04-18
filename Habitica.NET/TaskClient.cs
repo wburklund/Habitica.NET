@@ -47,18 +47,22 @@ namespace Habitica.NET
             var body = new { text = itemText };
             using (var content = new StringContent(body.ToJson()))
             {
-                var response = await client.PostAsync(path.ToUri(), content);
+                var response = await client.PostAsync(path.ToUri(), content).Safe();
                 return response.UnwrapHabiticaResponse<Data.Model.Task>();
             }
         }
 
-        public Task ApproveUserTaskAsync(Guid taskId, Guid userId)
+        public Task<Data.Model.Task> ApproveUserTaskAsync(Guid taskId, Guid userId)
         {
+            if (taskId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(taskId));
+            if (userId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(userId));
             return ApproveUserTaskInternalAsync(taskId, userId);
         }
-        private async Task ApproveUserTaskInternalAsync(Guid taskId, Guid userId)
+        private async Task<Data.Model.Task> ApproveUserTaskInternalAsync(Guid taskId, Guid userId)
         {
-
+            string path = $"/api/v3/tasks/{taskId}/approve/{userId}";
+            var response = await client.PostAsync(path.ToUri(), null).Safe();
+            return response.UnwrapHabiticaResponse<Data.Model.Task>();
         }
 
         public Task AssignUserTaskAsync(Guid taskId, Guid assignedUserId)
