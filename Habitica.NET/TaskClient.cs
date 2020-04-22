@@ -106,70 +106,123 @@ namespace Habitica.NET
         }
 
         /// <summary>
-        /// 
+        /// Creates new tasks belonging to a challenge.
         /// </summary>
-        /// <param name="challengeId"></param>
-        /// <param name="tasks"></param>
-        /// <returns></returns>
-        public Task CreateChallengeTaskAsync(Guid challengeId, IEnumerable<Data.Model.Task> tasks)
+        /// <param name="challengeId">The challenge the new tasks will be created for.</param>
+        /// <param name="tasks">The tasks that will be created.</param>
+        /// <returns>An object representing the created tasks.</returns>
+        public Task<IEnumerable<Data.Model.Task>> CreateChallengeTaskAsync(Guid challengeId, IEnumerable<CreateTask> tasks)
         {
             if (challengeId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(challengeId));
             if (tasks == null || !tasks.Any()) throw new ArgumentException(Resources.ExceptionEmptyCollection, nameof(tasks));
             return CreateChallengeTaskInternalAsync(challengeId, tasks);
         }
-        private async Task CreateChallengeTaskInternalAsync(Guid challengeId, IEnumerable<Data.Model.Task> tasks)
+        private async Task<IEnumerable<Data.Model.Task>> CreateChallengeTaskInternalAsync(Guid challengeId, IEnumerable<CreateTask> tasks)
         {
-            // TODO: Implement
+            string path = $"/api/v3/tasks/challenge/{challengeId}";
+            using (var content = new StringContent(tasks.ToJson()))
+            {
+                var response = await client.PostAsync(path.ToUri(), content);
+                return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+            }
         }
 
-        public Task CreateGroupTaskAsync(Guid groupId, IEnumerable<Data.Model.Task> tasks)
+        /// <summary>
+        /// Creates new tasks belonging to a group.
+        /// </summary>
+        /// <param name="groupId">The group the new tasks will be created for.</param>
+        /// <param name="tasks">The tasks that will be created.</param>
+        /// <returns>An object representing the created tasks.</returns>
+        public Task<IEnumerable<Data.Model.Task>> CreateGroupTaskAsync(Guid groupId, IEnumerable<CreateTask> tasks)
         {
+            if (groupId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(groupId));
+            if (tasks == null || !tasks.Any()) throw new ArgumentException(Resources.ExceptionEmptyCollection, nameof(tasks));
             return CreateGroupTaskInternalAsync(groupId, tasks);
         }
-        private async Task CreateGroupTaskInternalAsync(Guid groupId, IEnumerable<Data.Model.Task> tasks)
+        private async Task<IEnumerable<Data.Model.Task>> CreateGroupTaskInternalAsync(Guid groupId, IEnumerable<CreateTask> tasks)
         {
+            string path = $"/api/v3/tasks/group/{groupId}";
+            using (var content = new StringContent(tasks.ToJson()))
+            {
+                var response = await client.PostAsync(path.ToUri(), content);
+                return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+            }
 
         }
 
-        public Task CreateUserTaskAsync(IEnumerable<Data.Model.Task> tasks)
+        /// <summary>
+        /// Creates new tasks belonging to the user.
+        /// </summary>
+        /// <param name="tasks">The tasks that will be created.</param>
+        /// <returns>An object representing the created tasks.</returns>
+        public Task<IEnumerable<Data.Model.Task>> CreateUserTaskAsync(IEnumerable<CreateUserTask> tasks)
         {
+            if (tasks == null || !tasks.Any()) throw new ArgumentException(Resources.ExceptionEmptyCollection, nameof(tasks));
             return CreateUserTaskInternalAsync(tasks);
         }
-        private async Task CreateUserTaskInternalAsync(IEnumerable<Data.Model.Task> tasks)
+        private async Task<IEnumerable<Data.Model.Task>> CreateUserTaskInternalAsync(IEnumerable<CreateUserTask> tasks)
         {
+            string path = $"/api/v3/tasks/user";
+            using (var content = new StringContent(tasks.ToJson()))
+            {
+                var response = await client.PostAsync(path.ToUri(), content);
+                return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+            }
 
         }
 
-        public Task DeleteTaskChecklistItemAsync(string taskId, string itemText)
+        /// <summary>
+        /// Deletes a checklist item belonging to a task.
+        /// </summary>
+        /// <param name="taskId">The task ID or alias.</param>
+        /// <param name="itemId">The ID of the checklist item.</param>
+        /// <returns>An asynchronous operation.</returns>
+        public Task DeleteTaskChecklistItemAsync(string taskId, Guid itemId)
         {
-            return DeleteTaskChecklistItemInternalAsync(taskId, itemText);
-        }
-        private async Task DeleteTaskChecklistItemInternalAsync(string taskId, string itemText)
-        {
+            if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
+            if (itemId == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(itemId));
 
+            string path = $"/api/v3/tasks/{taskId}/checklist/{itemId}";
+            return client.DeleteAsync(path.ToUri());
         }
 
+        /// <summary>
+        /// Deletes a tag belonging to a task.
+        /// </summary>
+        /// <param name="taskId">The task ID or alias.</param>
+        /// <param name="tag">The ID of the tag.</param>
+        /// <returns>An asynchronous operation.</returns>
         public Task DeleteTaskTagAsync(string taskId, Guid tag)
         {
-            return DeleteTaskTagInternalAsync(taskId, tag);
-        }
-        private async Task DeleteTaskTagInternalAsync(string taskId, Guid tag)
-        {
+            if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
+            if (tag == default) throw new ArgumentException(Resources.ExceptionDefault, nameof(tag));
 
+            string path = $"/api/v3/tasks/{taskId}/tags/{tag}";
+            return client.DeleteAsync(path.ToUri());
         }
 
+        /// <summary>
+        /// Deletes a tag belonging to a task.
+        /// </summary>
+        /// <param name="taskId">The task ID or alias.</param>
+        /// <param name="tag">The ID of the tag.</param>
+        /// <returns>An asynchronous operation.</returns>
         public Task DeleteTaskAsync(string taskId)
         {
-            return DeleteTaskInternalAsync(taskId);
+            if (string.IsNullOrWhiteSpace(taskId)) throw new ArgumentException(Resources.ExceptionWhitespaceString, nameof(taskId));
+
+            string path = $"/api/v3/tasks/{taskId}";
+            return client.DeleteAsync(path.ToUri());
         }
-        private async Task DeleteTaskInternalAsync(string taskId)
+
+        /// <summary>
+        /// Clears the user's completed todos.
+        /// </summary>
+        /// <returns>An asynchronous operation.</returns>
+        public Task ClearCompletedTodosAsync()
         {
-
-        }
-
-        public async Task ClearCompletedTodosAsync()
-        {
-
+            string path = "/api/v3/tasks/clearCompletedTodos";
+            return client.PostAsync(path.ToUri(), null);
         }
 
         public Task GetChallegeTasksAsync(Guid challengeId)
