@@ -202,10 +202,9 @@ namespace Habitica.NET
         }
 
         /// <summary>
-        /// Deletes a tag belonging to a task.
+        /// Deletes a task.
         /// </summary>
         /// <param name="taskId">The task ID or alias.</param>
-        /// <param name="tag">The ID of the tag.</param>
         /// <returns>An asynchronous operation.</returns>
         public Task DeleteTaskAsync(string taskId)
         {
@@ -223,42 +222,6 @@ namespace Habitica.NET
         {
             string path = "/api/v3/tasks/clearCompletedTodos";
             return client.PostAsync(path.ToUri(), null);
-        }
-
-        public Task GetChallegeTasksAsync(Guid challengeId)
-        {
-            return GetChallegeTasksInternalAsync(challengeId);
-        }
-        private async Task GetChallegeTasksInternalAsync(Guid challengeId)
-        {
-
-        }
-
-        public Task GetGroupApprovalsAsync(Guid groupId)
-        {
-            return GetGroupApprovalsInternalAsync(groupId);
-        }
-        private async Task GetGroupApprovalsInternalAsync(Guid groupId)
-        {
-
-        }
-
-        public Task GetGroupTasksAsync(Guid groupId, TaskListType? type)
-        {
-            return GetGroupTasksInternalAsync(groupId, type.Value.ToString());
-        }
-        private async Task GetGroupTasksInternalAsync(Guid groupId, string type)
-        {
-
-        }
-
-        public Task GetTaskAsync(string taskId)
-        {
-            return GetTaskInternalAsync(taskId);
-        }
-        private async Task GetTaskInternalAsync(string taskId)
-        {
-
         }
 
         public Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
