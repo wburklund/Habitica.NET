@@ -224,6 +224,11 @@ namespace Habitica.NET
             return client.PostAsync(path.ToUri(), null);
         }
 
+        /// <summary>
+        /// Gets the user's tasks that match given request parameters.
+        /// </summary>
+        /// <param name="request">The request parameters.</param>
+        /// <returns>The user's matching tasks.</returns>
         public Task<IEnumerable<Data.Model.Task>> GetUserTasksAsync(GetUserTasksRequest request)
         {
             if (request == null) throw new ArgumentNullException(nameof(request));
