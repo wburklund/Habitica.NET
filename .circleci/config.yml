@@ -11,11 +11,10 @@ jobs:
           command: |
             apt update
             apt install --no-install-recommends -y default-jre
-            dotnet tool install --global dotnet-sonarscanner
+            dotnet restore
       - run:
           name: Build, Test, and Scan
           command: |
-            export PATH="$PATH:/root/.dotnet/tools" 
             dotnet sonarscanner begin /k:wburklund_Habitica.NET /o:wburklund /d:sonar.host.url=https://sonarcloud.io /d:sonar-login=$SONAR_TOKEN /d:sonar.cs.opencover.reportsPaths=Habitica.NET.Tests/coverage.opencover.xml
             dotnet build
             dotnet test /p:CollectCoverage=true /p:CoverletOutputFormat=opencover
