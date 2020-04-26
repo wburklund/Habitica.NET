@@ -24,7 +24,7 @@ namespace Habitica.NET.Tests
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             LastRequest = request;
-            LastRequestStringContent = request.Content.ReadAsStringAsync().Result;
+            LastRequestStringContent = request.Content?.ReadAsStringAsync().Result;
             return Task.FromResult(Response);
         }
     }
