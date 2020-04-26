@@ -10,7 +10,7 @@ jobs:
           name: Install Dependencies
           command: |
             apk update
-            apt add openjdk8-jre-base
+            apk add openjdk8-jre-base
             dotnet tool restore
       - run:
           name: Build, Test, and Scan
