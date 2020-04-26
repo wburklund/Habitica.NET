@@ -8,7 +8,7 @@ namespace Habitica.NET.Tests
     {
         public HttpRequestMessage LastRequest { get; private set; }
         public string LastRequestStringContent { get; private set; }
-        public HttpResponseMessage Response { get; set; }
+        public HttpResponseMessage Response { get; set; } = new HttpResponseMessage();
 
         public StubMessageHandler() { }
 
