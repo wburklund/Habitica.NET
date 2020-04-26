@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 [assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
 {
-    public class CoreClient : IHttpClient
+    public class CoreClient : ICoreClient
     {
         private readonly HttpClient httpClient;
 

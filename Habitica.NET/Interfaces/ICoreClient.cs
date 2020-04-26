@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Habitica.NET.Interfaces
 {
-    public interface IHttpClient
+    public interface ICoreClient
     {
         Task<HttpResponseMessage> GetAsync(Uri requestUri);
         Task<HttpResponseMessage> PostAsync(Uri requestUri, HttpContent content);

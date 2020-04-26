@@ -15,9 +15,9 @@ namespace Habitica.NET
 {
     public class TaskClient
     {
-        private readonly IHttpClient client;
+        private readonly ICoreClient client;
 
-        public TaskClient(IHttpClient client)
+        public TaskClient(ICoreClient client)
         {
             this.client = client;
         }
