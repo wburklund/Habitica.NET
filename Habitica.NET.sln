@@ -8,9 +8,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{57FE37C4-8030-43BF-8235-14C18BD4B02A}"
 	ProjectSection(SolutionItems) = preProject
 		.circleci\config.yml = .circleci\config.yml
+		.config\dotnet-tools.json = .config\dotnet-tools.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Habitica.NET.Tests", "Habitica.NET.Tests\Habitica.NET.Tests.csproj", "{4EA88E6A-4447-4D29-B822-9472F161BEF3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Habitica.NET.Tests", "Habitica.NET.Tests\Habitica.NET.Tests.csproj", "{4EA88E6A-4447-4D29-B822-9472F161BEF3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
