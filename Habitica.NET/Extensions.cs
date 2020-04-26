@@ -34,13 +34,6 @@ namespace Habitica.NET
         internal static ConfiguredTaskAwaitable<T> Safe<T>(this Task<T> task) => task.ConfigureAwait(false);
 
         /// <summary>
-        /// Retrieves the body of an HttpResponseMessage as a string.
-        /// </summary>
-        /// <param name="response">The HttpResponseMessage.</param>
-        /// <returns>The body of the message, read as a string.</returns>
-        internal static string ToBody(this HttpResponseMessage response) => response.Content.ReadAsStringAsync().Safe().GetAwaiter().GetResult();
-
-        /// <summary>
         /// Converts an object to its JSON representation using JSON.NET.
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
