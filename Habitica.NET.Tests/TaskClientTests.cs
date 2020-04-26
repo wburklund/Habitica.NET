@@ -70,6 +70,25 @@ namespace Habitica.NET.Tests
         }
 
         [Fact]
+        public async Task AssignUserTaskAsync_Normal_ExecutesRequestProperly()
+        {
+            (var client, var handler) = InstrumentedTaskClient();
+
+            // TODO: Replace with real data
+            const string exampleResponse = "{\r\n    \"success\": true,\r\n    \"data\": {\r\n        \"_id\": \"84f02d6a-7b43-4818-a35c-d3336cec4880\",\r\n        \"userId\": \"b0413351-405f-416f-8787-947ec1c85199\",\r\n        \"text\": \"Test API Params\",\r\n        \"alias\": \"test-api-params\",\r\n        \"type\": \"todo\",\r\n        \"notes\": \"\",\r\n        \"tags\": [],\r\n        \"value\": 0,\r\n        \"priority\": 2,\r\n        \"attribute\": \"int\",\r\n        \"challenge\": {\r\n            \"taskId\": \"4a29874c-0308-417b-a909-2a7d262b49f6\",\r\n            \"id\": \"f23c12f2-5830-4f15-9c36-e17fd729a812\"\r\n        },\r\n        \"group\": {\r\n            \"assignedUsers\": [],\r\n            \"approval\": {\r\n                \"required\": false,\r\n                \"approved\": false,\r\n                \"requested\": false\r\n            }\r\n        },\r\n        \"reminders\": [],\r\n        \"createdAt\": \"2017-01-13T21:23:05.949Z\",\r\n        \"updatedAt\": \"2017-01-14T03:38:07.406Z\",\r\n        \"checklist\": [\r\n            {\r\n                \"id\": \"afe4079d-dff1-47d9-9b06-5d76c69ddb12\",\r\n                \"text\": \"Do this subtask\",\r\n                \"completed\": false\r\n            }\r\n        ],\r\n        \"collapseChecklist\": false,\r\n        \"completed\": false,\r\n        \"id\": \"84f02d6a-7b43-4818-a35c-d3336cec4880\"\r\n    },\r\n    \"notifications\": []\r\n}";
+            handler.Response = exampleResponse.WrapResponseBody();
+
+            Guid taskId = Guid.NewGuid();
+            Guid assignedUserId = Guid.NewGuid();
+            _ = await client.AssignUserTaskAsync(taskId, assignedUserId);
+            var request = handler.LastRequest;
+
+            Assert.Equal($"/api/v3/tasks/{taskId}/assign/{assignedUserId}", request.RequestUri.AbsolutePath);
+            Assert.Equal("", request.RequestUri.Query);
+            Assert.Null(request.Content);
+        }
+
+        [Fact]
         public async Task GetUserTasksAsync_NullRequest_ThrowsArgumentNullException()
         {
             (var client, var handler) = InstrumentedTaskClient();
