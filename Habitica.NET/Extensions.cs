@@ -45,6 +45,7 @@ namespace Habitica.NET
         /// </summary>
         /// <param name="obj">The object to serialize.</param>
         /// <returns>The serialized object.</returns>
+        [SuppressMessage("Minor Code Smells", "S4225: Refactor this extension to extend a more concrete type.", Justification = "Serialization is practically universal.")]
         internal static string ToJson(this object obj) => JsonConvert.SerializeObject(obj);
 
         /// <summary>
