@@ -14,52 +14,59 @@ namespace Habitica.NET.Tests.Unit.Data
         private TaskClient GetTaskClient() => new TaskClient(MockCoreClient.Object);
 
         [Theory]
-        [ClassData(typeof())]
-        public void AddTaskTagAsync_InvalidParameters_ThrowsArgumentException()
+        [ClassData(typeof(InvalidStringGuid))]
+        public async Task AddTaskTagAsync_InvalidParameters_ThrowsArgumentException(string taskId, Guid tagId)
         {
-
+            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskTagAsync(taskId, tagId));
         }
 
-        private class AddTaskAsyncInvalidParameters : TheoryData<string, Guid>
+        private class InvalidStringGuid : TheoryData<string, Guid>
         {
-
+            public InvalidStringGuid()
+            {
+                Add(null, default);
+                Add(null, Guid.NewGuid());
+                Add(" ", default);
+                Add(" ", Guid.NewGuid());
+                Add("valid", default);
+            }
         }
 
-
-        [Fact]
-        public void AddTaskTagAsync_EmptyTaskId_ThrowsArgumentException()
+        [Theory]
+        [ClassData(typeof(InvalidStringString))]
+        public async Task AddTaskChecklistItemAsync_InvalidParameters_ThrowsArgumentException(string taskId, string itemText)
         {
-            Assert.Throws<ArgumentException>("taskId", () => GetTaskClient().AddTaskTagAsync(null, Guid.NewGuid()).Result);
+            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskChecklistItemAsync(taskId, itemText));
         }
 
-        [Fact]
-        public void AddTaskTagAsync_EmptyTagId_ThrowsArgumentException()
+        private class InvalidStringString : TheoryData<string, string>
         {
-            Assert.Throws<ArgumentException>("tagId", () => GetTaskClient().AddTaskTagAsync("taskId", default).Result);
+            public InvalidStringString()
+            {
+                Add(null, null);
+                Add(null, "valid");
+                Add(" ", null);
+                Add(" ", "valid");
+                Add("valid", null);
+                Add("valid", " ");
+            }
         }
 
-        [Fact]
-        public void AddTaskChecklistItemAsync_EmptyTaskId_ThrowsArgumentException()
+        [Theory]
+        [ClassData(typeof(InvalidGuidGuid))]
+        public async Task ApproveUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid userId)
         {
-            Assert.Throws<ArgumentException>("taskId", () => GetTaskClient().AddTaskChecklistItemAsync(null, "itemText").Result);
+            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().ApproveUserTaskAsync(taskId, userId));
         }
 
-        [Fact]
-        public void AddTaskChecklistItemAsync_EmptyItemText_ThrowsArgumentException()
+        private class InvalidGuidGuid : TheoryData<Guid, Guid>
         {
-            Assert.Throws<ArgumentException>("itemText", () => GetTaskClient().AddTaskChecklistItemAsync("taskId", null).Result);
-        }
-
-        [Fact]
-        public void AssignUserTaskAsync_EmptyTaskId_ThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>("taskId", () => GetTaskClient().AssignUserTaskAsync(default, Guid.NewGuid()).Result);
-        }
-
-        [Fact]
-        public void AssignUserTaskAsync_EmptyAssignedUserId_ThrowsArgumentException()
-        {
-            Assert.Throws<ArgumentException>("assignedUserId", () => GetTaskClient().AssignUserTaskAsync(Guid.NewGuid(), default).Result);
+            public InvalidGuidGuid()
+            {
+                Add(default, default);
+                Add(default, Guid.NewGuid());
+                Add(Guid.NewGuid(), default);
+            }
         }
     }
 }
