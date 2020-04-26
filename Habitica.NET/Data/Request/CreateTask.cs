@@ -2,9 +2,7 @@
 
 using Habitica.NET.Data.Model;
 using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
 
 namespace Habitica.NET.Data.Request
 {
