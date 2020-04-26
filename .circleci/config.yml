@@ -10,7 +10,7 @@ jobs:
           name: Install Dependencies
           command: |
             apk update
-            apk add openjdk14-jre-headless
+            apk add openjdk11-jre-headless
             dotnet tool restore
       - run:
           name: Build, Test, and Scan
