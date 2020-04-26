@@ -8,7 +8,7 @@ namespace Habitica.NET.Tests
     {
         private static (TaskClient, StubMessageHandler) InstrumentedTaskClient()
         {
-            (var core, var handler, _) = CoreClientTests.InstrumentedCoreClient();
+            (var core, var handler, _) = Common.InstrumentedCoreClient();
             return (new TaskClient(core), handler);
         }
 
