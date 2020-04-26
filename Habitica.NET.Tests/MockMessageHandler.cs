@@ -11,6 +11,7 @@ namespace Habitica.NET.Tests
     public class MockMessageHandler : HttpMessageHandler
     {
         public HttpRequestMessage LastRequest { get; private set; }
+        public string LastRequestStringContent { get; private set; }
         public HttpResponseMessage Response { get; set; }
 
         public MockMessageHandler() { }
@@ -23,6 +24,7 @@ namespace Habitica.NET.Tests
         protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
         {
             LastRequest = request;
+            LastRequestStringContent = request.Content.ReadAsStringAsync().Result;
             return Task.FromResult(Response);
         }
     }
