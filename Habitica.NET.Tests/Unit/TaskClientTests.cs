@@ -15,9 +15,9 @@ namespace Habitica.NET.Tests.Unit.Data
 
         [Theory]
         [ClassData(typeof(InvalidStringGuid))]
-        public async Task AddTaskTagAsync_InvalidParameters_ThrowsArgumentException(string taskId, Guid tagId)
+        public Task AddTaskTagAsync_InvalidParameters_ThrowsArgumentException(string taskId, Guid tagId)
         {
-            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskTagAsync(taskId, tagId));
+            return Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskTagAsync(taskId, tagId));
         }
 
         private class InvalidStringGuid : TheoryData<string, Guid>
@@ -34,9 +34,9 @@ namespace Habitica.NET.Tests.Unit.Data
 
         [Theory]
         [ClassData(typeof(InvalidStringString))]
-        public async Task AddTaskChecklistItemAsync_InvalidParameters_ThrowsArgumentException(string taskId, string itemText)
+        public Task AddTaskChecklistItemAsync_InvalidParameters_ThrowsArgumentException(string taskId, string itemText)
         {
-            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskChecklistItemAsync(taskId, itemText));
+            return Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AddTaskChecklistItemAsync(taskId, itemText));
         }
 
         private class InvalidStringString : TheoryData<string, string>
@@ -54,9 +54,9 @@ namespace Habitica.NET.Tests.Unit.Data
 
         [Theory]
         [ClassData(typeof(InvalidGuidGuid))]
-        public async Task ApproveUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid userId)
+        public Task ApproveUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid userId)
         {
-            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().ApproveUserTaskAsync(taskId, userId));
+            return Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().ApproveUserTaskAsync(taskId, userId));
         }
 
         private class InvalidGuidGuid : TheoryData<Guid, Guid>
@@ -71,9 +71,9 @@ namespace Habitica.NET.Tests.Unit.Data
 
         [Theory]
         [ClassData(typeof(InvalidGuidGuid))]
-        public async Task AssignUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid assignedUserId)
+        public Task AssignUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid assignedUserId)
         {
-            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AssignUserTaskAsync(taskId, assignedUserId));
+            return Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AssignUserTaskAsync(taskId, assignedUserId));
         }
 
     }
