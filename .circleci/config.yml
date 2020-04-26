@@ -11,7 +11,7 @@ jobs:
           command: |
             apt update
             apt install --no-install-recommends -y default-jre
-            dotnet restore
+            dotnet tool restore
       - run:
           name: Build, Test, and Scan
           command: |
