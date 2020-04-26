@@ -5,9 +5,11 @@ using Habitica.NET.Properties;
 using System;
 using System.Net.Http;
 using System.Resources;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 
 [assembly: System.Runtime.InteropServices.ComVisible(false)]
+[assembly: InternalsVisibleTo("Habitica.NET.Tests")]
 [assembly: CLSCompliant(true)]
 [assembly: NeutralResourcesLanguage("en")]
 namespace Habitica.NET
