@@ -107,7 +107,6 @@ namespace Habitica.NET.Tests
             Assert.Null(request.Content);
         }
 
-
         [Fact]
         public async Task GetUserTasksAsync_NullRequest_ThrowsArgumentNullException()
         {
