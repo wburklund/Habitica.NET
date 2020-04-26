@@ -8,15 +8,15 @@ using System.Threading.Tasks;
 
 namespace Habitica.NET.Tests
 {
-    public class MockMessageHandler : HttpMessageHandler
+    public class StubMessageHandler : HttpMessageHandler
     {
         public HttpRequestMessage LastRequest { get; private set; }
         public string LastRequestStringContent { get; private set; }
         public HttpResponseMessage Response { get; set; }
 
-        public MockMessageHandler() { }
+        public StubMessageHandler() { }
 
-        public MockMessageHandler(HttpResponseMessage response)
+        public StubMessageHandler(HttpResponseMessage response)
         {
             Response = response;
         }

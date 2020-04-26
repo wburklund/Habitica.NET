@@ -6,7 +6,7 @@ namespace Habitica.NET.Tests
 {
     public class TaskClientTests
     {
-        private static (TaskClient, MockMessageHandler) InstrumentedTaskClient()
+        private static (TaskClient, StubMessageHandler) InstrumentedTaskClient()
         {
             (var core, var handler, _) = CoreClientTests.InstrumentedCoreClient();
             return (new TaskClient(core), handler);
