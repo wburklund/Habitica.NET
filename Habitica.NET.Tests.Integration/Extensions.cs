@@ -2,7 +2,7 @@
 using System.Net;
 using System.Net.Http;
 
-namespace Habitica.NET.Tests
+namespace Habitica.NET.Tests.Integration
 {
     internal static class Extensions
     {

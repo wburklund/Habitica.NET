@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
-namespace Habitica.NET.Tests
+namespace Habitica.NET.Tests.Integration
 {
     public class TaskClientTests
     {

@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace Habitica.NET.Tests
+namespace Habitica.NET.Tests.Integration
 {
     public class StubMessageHandler : HttpMessageHandler
     {

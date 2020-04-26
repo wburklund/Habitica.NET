@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
 
-namespace Habitica.NET.Tests
+namespace Habitica.NET.Tests.Unit
 {
     public class CoreClientTests
     {
