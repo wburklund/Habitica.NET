@@ -13,6 +13,19 @@ namespace Habitica.NET.Tests.Unit.Data
         private Mock<ICoreClient> MockCoreClient = new Mock<ICoreClient>();
         private TaskClient GetTaskClient() => new TaskClient(MockCoreClient.Object);
 
+        [Theory]
+        [ClassData(typeof())]
+        public void AddTaskTagAsync_InvalidParameters_ThrowsArgumentException()
+        {
+
+        }
+
+        private class AddTaskAsyncInvalidParameters : TheoryData<string, Guid>
+        {
+
+        }
+
+
         [Fact]
         public void AddTaskTagAsync_EmptyTaskId_ThrowsArgumentException()
         {
