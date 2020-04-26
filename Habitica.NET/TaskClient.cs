@@ -122,7 +122,7 @@ namespace Habitica.NET
             string path = $"/api/v3/tasks/challenge/{challengeId}";
             using (var content = new StringContent(tasks.ToJson()))
             {
-                var response = await client.PostAsync(path.ToUri(), content);
+                var response = await client.PostAsync(path.ToUri(), content).Safe();
                 return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
             }
         }
@@ -144,7 +144,7 @@ namespace Habitica.NET
             string path = $"/api/v3/tasks/group/{groupId}";
             using (var content = new StringContent(tasks.ToJson()))
             {
-                var response = await client.PostAsync(path.ToUri(), content);
+                var response = await client.PostAsync(path.ToUri(), content).Safe();
                 return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
             }
 
@@ -165,7 +165,7 @@ namespace Habitica.NET
             string path = $"/api/v3/tasks/user";
             using (var content = new StringContent(tasks.ToJson()))
             {
-                var response = await client.PostAsync(path.ToUri(), content);
+                var response = await client.PostAsync(path.ToUri(), content).Safe();
                 return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
             }
 
