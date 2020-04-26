@@ -7,11 +7,12 @@ namespace Habitica.NET.Tests
 {
     public class CoreClientTests
     {
-        private readonly static HabiticaCredentials GoodHabiticaCredentials = new HabiticaCredentials(Guid.NewGuid(), "Habitica.NET.Tests", Guid.NewGuid(), Guid.NewGuid());
+        private readonly static HabiticaCredentials ValidHabiticaCredentials = new HabiticaCredentials(Guid.NewGuid(), "Habitica.NET.Tests", Guid.NewGuid(), Guid.NewGuid());
+
         public static (CoreClient, StubMessageHandler, HabiticaCredentials) InstrumentedCoreClient()
         {
             var handler = new StubMessageHandler();
-            var credentials = GoodHabiticaCredentials;
+            var credentials = ValidHabiticaCredentials;
             var client = CoreClient.Create(credentials, handler);
             return (client, handler, credentials);
         }
@@ -28,8 +29,8 @@ namespace Habitica.NET.Tests
             public NullCreateData()
             {
                 Add(null, new StubMessageHandler(), new Uri("https://www.google.com"));
-                Add(GoodHabiticaCredentials, null, new Uri("https://www.google.com"));
-                Add(GoodHabiticaCredentials, new StubMessageHandler(), null);
+                Add(ValidHabiticaCredentials, null, new Uri("https://www.google.com"));
+                Add(ValidHabiticaCredentials, new StubMessageHandler(), null);
             }
         }
 
