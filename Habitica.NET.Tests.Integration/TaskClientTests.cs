@@ -1,4 +1,6 @@
+using Habitica.NET.Data.Request;
 using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -87,6 +89,26 @@ namespace Habitica.NET.Tests
             Assert.Equal("", request.RequestUri.Query);
             Assert.Null(request.Content);
         }
+
+        [Fact]
+        public async Task CreateChallengeTaskAsync_Normal_ExecutesRequestProperly()
+        {
+            (var client, var handler) = InstrumentedTaskClient();
+
+            string exampleResponse = "{\r\n    \"success\": true,\r\n    \"data\": {\r\n        \"text\": \"Test API Params\",\r\n        \"type\": \"todo\",\r\n        \"notes\": \"\",\r\n        \"tags\": [],\r\n        \"value\": 0,\r\n        \"priority\": 1,\r\n        \"attribute\": \"str\",\r\n        \"challenge\": {\r\n            \"id\": \"f23c12f2-5830-4f15-9c36-e17fd729a812\"\r\n        },\r\n        \"group\": {\r\n            \"assignedUsers\": [],\r\n            \"approval\": {\r\n                \"required\": false,\r\n                \"approved\": false,\r\n                \"requested\": false\r\n            }\r\n        },\r\n        \"reminders\": [],\r\n        \"_id\": \"4a29874c-0308-417b-a909-2a7d262b49f6\",\r\n        \"createdAt\": \"2017-01-13T21:23:05.949Z\",\r\n        \"updatedAt\": \"2017-01-13T21:23:05.949Z\",\r\n        \"checklist\": [],\r\n        \"collapseChecklist\": false,\r\n        \"completed\": false,\r\n        \"id\": \"4a29874c-0308-417b-a909-2a7d262b49f6\"\r\n    },\r\n    \"notifications\": []\r\n}";
+            handler.Response = exampleResponse.WrapResponseBody();
+
+            Guid challengeId = Guid.NewGuid();
+            var task = new CreateTask() { Text = "Text", Type = "daily" };
+            var tasks = new List<CreateTask> { task };
+            _ = await client.CreateChallengeTaskAsync(challengeId, tasks);
+            var request = handler.LastRequest;
+
+            Assert.Equal($"/api/v3/tasks/challenge/{challengeId}", request.RequestUri.AbsolutePath);
+            Assert.Equal("", request.RequestUri.Query);
+            Assert.Equal(tasks.ToJson(), handler.LastRequestStringContent);
+        }
+
 
         [Fact]
         public async Task DeleteTaskChecklistItemAsync_Normal_ExecutesRequestProperly()
