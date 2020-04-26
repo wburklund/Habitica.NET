@@ -220,7 +220,7 @@ namespace Habitica.NET
         /// <returns>An asynchronous operation.</returns>
         public Task ClearCompletedTodosAsync()
         {
-            string path = "/api/v3/tasks/clearCompletedTodos";
+            const string path = "/api/v3/tasks/clearCompletedTodos";
             return client.PostAsync(path.ToUri(), null);
         }
 
