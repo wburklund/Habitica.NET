@@ -147,7 +147,10 @@ namespace Habitica.NET
             using (var content = new StringContent(tasks.ToJson()))
             {
                 var response = await client.PostAsync(path.ToUri(), content).Safe();
-                return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+
+                if (tasks.Count() > 1) return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+
+                return new List<Data.Model.Task> { response.UnwrapHabiticaResponse<Data.Model.Task>() };
             }
 
         }
@@ -168,7 +171,10 @@ namespace Habitica.NET
             using (var content = new StringContent(tasks.ToJson()))
             {
                 var response = await client.PostAsync(path.ToUri(), content).Safe();
-                return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+
+                if (tasks.Count() > 1) return response.UnwrapHabiticaResponse<IEnumerable<Data.Model.Task>>();
+
+                return new List<Data.Model.Task> { response.UnwrapHabiticaResponse<Data.Model.Task>() };
             }
 
         }
