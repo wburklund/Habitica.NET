@@ -9,7 +9,7 @@ using Xunit;
 
 using HTask = Habitica.NET.Data.Model.Task;
 
-namespace Habitica.NET.Tests.Unit.Data
+namespace Habitica.NET.Tests.Unit
 {
     public class TaskClientTests
     {
