@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Net.Http;
 using Xunit;
 
-namespace Habitica.NET.Tests.Integration
+namespace Habitica.NET.Tests
 {
     public class Common
     {

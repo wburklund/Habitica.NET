@@ -68,5 +68,13 @@ namespace Habitica.NET.Tests.Unit.Data
                 Add(Guid.NewGuid(), default);
             }
         }
+
+        [Theory]
+        [ClassData(typeof(InvalidGuidGuid))]
+        public async Task AssignUserTaskAsync_InvalidParameters_ThrowsArgumentException(Guid taskId, Guid assignedUserId)
+        {
+            await Assert.ThrowsAsync<ArgumentException>(() => GetTaskClient().AssignUserTaskAsync(taskId, assignedUserId));
+        }
+
     }
 }
