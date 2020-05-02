@@ -1,5 +1,6 @@
 ﻿using Habitica.NET.Data.Enum;
 using Habitica.NET.Data.Model;
+using Habitica.NET.Data.Response;
 using System;
 using System.Collections.Generic;
 using System.Text;
@@ -24,12 +25,12 @@ namespace Habitica.NET.Tests.Unit.Data.Model
             IEnumerable<Reminder> Reminders = new List<Reminder>();
             var Tags = new List<Guid> { Guid.NewGuid(), Guid.NewGuid() };
             const string Text = "Text";
-            const string Type = "Type";
+            const TaskType Type = TaskType.Habit;
             DateTime UpdatedAt = DateTime.Now;
             Guid UserId = Guid.NewGuid();
             const double Value = 350.0;
 
-            var request = new Task
+            var request = new GetTask
             {
                 Attribute = Attribute,
                 ByHabitica = ByHabitica,
